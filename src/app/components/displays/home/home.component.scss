@@ -1,0 +1,65 @@
+::ng-deep {
+  .p-button {
+    width: 100%;
+  }
+}
+
+// スマホサイズ
+@media screen and (max-width:500px) {
+  .button-size {
+    width: 150px;
+  }
+}
+// タブレットサイズ
+@media screen and (min-width:500px) and (max-width:1024px) {
+  .button-size {
+    width: 180px;
+  }
+}
+// PCサイズ
+@media screen and (min-width:1024px) {
+  .button-size {
+    width: 260px;
+  }
+}
+
+.display-component {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-elements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.title {
+  color: #469b98;
+  font-size: 56px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  row-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.toggle-button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 6px;
+}
