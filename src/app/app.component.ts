@@ -1,25 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HomeComponent } from './components/displays/home/home.component';
+import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { ChangeComponentService } from './core/services/change-component.service';
-import { DisplayComponentType } from './core/enum/display-component.enum';
+import { PageComponentsType } from './core/types/page-components.enum';
+import { fadeInAnimation } from './app.animation';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    HomeComponent,
   ],
+  animations: [fadeInAnimation],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   constructor(
     private changeComponentService: ChangeComponentService,
+    private contexts: ChildrenOutletContexts,
   ) {}
 
   ngOnInit(): void {
-    this.changeComponentService.changeDisplayComponent(DisplayComponentType.Home);
+    this.changeComponentService.changePage(PageComponentsType.Home);
+  }
+
+  /**
+   * ルーティングアニメーションのデータを取得する
+   */
+  public getRouteAnimationData(): string {
+    return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
   }
 }

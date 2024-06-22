@@ -1,0 +1,28 @@
+<div class="display-component">
+  <div class="home-elements">
+    <div class="title">Make 10</div>
+    <div class="buttons">
+      <p-button 
+        label="Play"
+        [raised]="true"
+        class="button-size"
+        (onClick)="onClickPlayButton()"
+      />
+      <p-button
+        label="Ranking"
+        [raised]="true"
+        class="button-size"
+        (onClick)="onClickRankingButton()"
+      />
+      <div class="toggle-button-group">
+        <label
+          class="toggle-button-label"
+          (click)="onClickChangeVisibleTimerLabel()"
+        >
+          Timer
+        </label>
+        <p-inputSwitch [(ngModel)]="isVisibleTimer" />
+      </div>
+    </div>
+  </div>
+</div>
