@@ -17,4 +17,8 @@ export class HowToComponent {
   public onClickReturnButton(): void {
     this.changeComponentService.changePage(PageComponentsType.Home);
   }
+
+  public onClickStartButton(): void {
+    this.changeComponentService.changePage(PageComponentsType.MakeTen);
+  }
 }
