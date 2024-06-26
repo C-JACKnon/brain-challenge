@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { ChangeComponentService } from './core/services/change-component.service';
-import { PageComponentsType } from './core/types/page-components.enum';
 import { fadeInAnimation } from './app.animation';
+import { PAGE_ADDRESS } from './app.routes';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.changeComponentService.changePage(PageComponentsType.Home);
+    this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
   }
 
   /**

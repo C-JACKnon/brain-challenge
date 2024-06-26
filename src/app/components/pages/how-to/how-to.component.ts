@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
-import { PageComponentsType } from '../../../core/types/page-components.enum';
+import { PAGE_ADDRESS } from '../../../app.routes';
 
 @Component({
   selector: 'app-how-to',
@@ -15,10 +15,10 @@ export class HowToComponent {
   ) { }
   
   public onClickReturnButton(): void {
-    this.changeComponentService.changePage(PageComponentsType.Home);
+    this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
   }
 
   public onClickStartButton(): void {
-    this.changeComponentService.changePage(PageComponentsType.MakeTen);
+    this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
   }
 }
