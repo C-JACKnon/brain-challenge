@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { PageComponentsType } from '../types/page-components.enum';
+import { PAGE_ADDRESS } from '../../app.routes';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ export class ChangeComponentService {
 
   /**
    * 表示する画面の変更
-   * @param newPageComponent 新たに表示する画面コンポーネント
+   * @param nextPageAddress 新たに表示する画面のアドレス
    */
-  public changePage(newPageComponent: PageComponentsType): void {
-    this.router.navigate([newPageComponent]);
+  public changePage(nextPageAddress: string): void {
+    this.router.navigate([nextPageAddress]);
   }
 }
