@@ -41,16 +41,3 @@
 .button-size {
   width: 150px;
 }
-
-.toggle-button-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  column-gap: 10px;
-}
-
-.toggle-button-label {
-  cursor: pointer;
-}

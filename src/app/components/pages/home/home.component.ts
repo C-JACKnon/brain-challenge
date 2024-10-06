@@ -2,24 +2,27 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { ButtonModule } from 'primeng/button';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { PAGE_ADDRESS } from '../../../app.routes';
 
-
+/**
+ * ホーム画面コンポーネント
+ * @class
+ */
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     FormsModule,
     ButtonModule,
-    InputSwitchModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent  {
-  public isVisibleTimer: boolean = true;
-
+export class HomeComponent {
+  /**
+   * @constructor
+   * @param changeComponentService 画面コンポーネント切替サービス
+   */
   constructor(
     private changeComponentService: ChangeComponentService,
   ) { }
@@ -36,12 +39,5 @@ export class HomeComponent  {
    */
   public onClickRankingButton(): void {
     this.changeComponentService.changePage(PAGE_ADDRESS.HOW_TO);
-  }
-
-  /**
-   * タイマー表示変更ラベルクリックイベント
-   */
-  public onClickChangeVisibleTimerLabel(): void {
-    this.isVisibleTimer = !this.isVisibleTimer;
   }
 }

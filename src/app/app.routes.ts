@@ -7,12 +7,12 @@ import { RankingComponent } from './components/pages/ranking/ranking.component';
 /**
  * ページのアドレス
  */
-export const PAGE_ADDRESS = {
-  HOME: 'home',
-  RANKING: 'ranking',
-  HOW_TO: 'how-to',
-  MAKE_TEN: 'make-ten',
-} as const;
+export enum PAGE_ADDRESS {
+  HOME = 'home',
+  RANKING = 'ranking',
+  HOW_TO = 'how-to',
+  MAKE_TEN = 'make-ten',
+};
 
 /**
  * ルーティング定義
