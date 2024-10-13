@@ -1,15 +1,12 @@
-// Comment out the line below if you want to use the deprecated `color` inputs.
-// @include mat.color-variants-backwards-compatibility($brain-challenge-theme);
-/* You can add global styles to this file, and also import other style files */
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+
 body {
   background-color: #dce9ea;
 }
 html, body { height: 100%; }
 body { 
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
