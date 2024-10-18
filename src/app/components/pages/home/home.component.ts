@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
-import { ButtonModule } from 'primeng/button';
 import { PAGE_ADDRESS } from '../../../app.routes';
+import { SquareButtonComponent } from '../../share/square-button/square-button.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 /**
  * ホーム画面コンポーネント
@@ -12,11 +12,11 @@ import { PAGE_ADDRESS } from '../../../app.routes';
   selector: 'app-home',
   standalone: true,
   imports: [
-    FormsModule,
-    ButtonModule,
+    SquareButtonComponent,
+    AngularSvgIconModule,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   /**
@@ -28,16 +28,30 @@ export class HomeComponent {
   ) { }
 
   /**
-   * プレイボタンクリックイベント
+   * 設定ボタンクリックイベント
    */
-  public onClickPlayButton(): void {
-    this.changeComponentService.changePage(PAGE_ADDRESS.HOW_TO);
+  public onClickSettingsButton(): void {
+    // TODO: 設定画面遷移処理の実装
   }
 
   /**
-   * ランキングボタンクリックイベント
+   * STARTボタンクリックイベント
+   */
+  public onClickStartButton(): void {
+    this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
+  }
+
+  /**
+   * RANKINGボタンクリックイベント
    */
   public onClickRankingButton(): void {
+    this.changeComponentService.changePage(PAGE_ADDRESS.RANKING);
+  }
+
+  /**
+   * HowToPlayボタンクリックイベント
+   */
+  public onClickHowToPlayButton(): void {
     this.changeComponentService.changePage(PAGE_ADDRESS.HOW_TO);
   }
 }

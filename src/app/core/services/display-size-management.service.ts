@@ -62,7 +62,7 @@ export class DisplaySizeManagementService {
     else {
       this._applicationSize.width = displaySize.width;
     }
-    console.log('Update application size.', this._applicationSize);
+    // console.log('Update application size.', this._applicationSize);
 
     return this._applicationSize;
   }
