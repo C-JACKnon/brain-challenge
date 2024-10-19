@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+/**
+ * Make10画面コンポーネント
+ * @class
+ */
 @Component({
   selector: 'app-make-ten',
   standalone: true,

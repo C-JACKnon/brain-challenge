@@ -1,47 +1,57 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
-import { ButtonModule } from 'primeng/button';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { PageComponentsType } from '../../../core/types/page-components.enum';
+import { PAGE_ADDRESS } from '../../../app.routes';
+import { SquareButtonComponent } from '../../share/square-button/square-button.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
-
+/**
+ * ホーム画面コンポーネント
+ * @class
+ */
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    FormsModule,
-    ButtonModule,
-    InputSwitchModule,
+    SquareButtonComponent,
+    AngularSvgIconModule,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
-export class HomeComponent  {
-  public isVisibleTimer: boolean = true;
-
+export class HomeComponent {
+  /**
+   * @constructor
+   * @param changeComponentService 画面コンポーネント切替サービス
+   */
   constructor(
     private changeComponentService: ChangeComponentService,
   ) { }
 
   /**
-   * プレイボタンクリックイベント
+   * 設定ボタンクリックイベント
    */
-  public onClickPlayButton(): void {
-    this.changeComponentService.changePage(PageComponentsType.HowTo);
+  public onClickSettingsButton(): void {
+    // TODO: 設定画面遷移処理の実装
   }
 
   /**
-   * ランキングボタンクリックイベント
+   * STARTボタンクリックイベント
+   */
+  public onClickStartButton(): void {
+    this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
+  }
+
+  /**
+   * RANKINGボタンクリックイベント
    */
   public onClickRankingButton(): void {
-    this.changeComponentService.changePage(PageComponentsType.Ranking);
+    this.changeComponentService.changePage(PAGE_ADDRESS.RANKING);
   }
 
   /**
-   * タイマー表示変更ラベルクリックイベント
+   * HowToPlayボタンクリックイベント
    */
-  public onClickChangeVisibleTimerLabel(): void {
-    this.isVisibleTimer = !this.isVisibleTimer;
+  public onClickHowToPlayButton(): void {
+    this.changeComponentService.changePage(PAGE_ADDRESS.HOW_TO);
   }
 }

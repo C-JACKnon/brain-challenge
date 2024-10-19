@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 
+/**
+ * ランキング画面コンポーネント
+ * @class
+ */
 @Component({
   selector: 'app-ranking',
   standalone: true,
