@@ -31,7 +31,7 @@ export class HomeComponent {
    * 設定ボタンクリックイベント
    */
   public onClickSettingsButton(): void {
-    // TODO: 設定画面遷移処理の実装
+    this.changeComponentService.changePage(PAGE_ADDRESS.SETTINGS);
   }
 
   /**
