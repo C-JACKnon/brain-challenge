@@ -6,7 +6,6 @@ export const fadeInAnimation = trigger('routeAnimations', [
     query(':enter, :leave', [
       style({
         position: 'absolute',
-        height: '100%',
         width: '100%',
       })
     ], { optional: true }),
