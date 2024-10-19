@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { PAGE_ADDRESS } from '../../../app.routes';
+import { PageComponentsType } from '../../../core/types/page-components.enum';
+
 
 @Component({
   selector: 'app-home',
@@ -27,14 +28,14 @@ export class HomeComponent  {
    * プレイボタンクリックイベント
    */
   public onClickPlayButton(): void {
-    this.changeComponentService.changePage(PAGE_ADDRESS.HOW_TO);
+    this.changeComponentService.changePage(PageComponentsType.HowTo);
   }
 
   /**
    * ランキングボタンクリックイベント
    */
   public onClickRankingButton(): void {
-    this.changeComponentService.changePage(PAGE_ADDRESS.RANKING);
+    this.changeComponentService.changePage(PageComponentsType.Ranking);
   }
 
   /**
