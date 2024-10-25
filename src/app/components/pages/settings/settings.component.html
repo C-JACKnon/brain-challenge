@@ -1,2 +1,24 @@
-<p>settings works!</p>
-<button (click)="onClickReturnButton()">戻る</button>
+<div class="display-component">
+  <div class="settings-elements">
+    <div class="header-elements">
+      <svg-icon
+        src="assets/close.svg"
+        [applyClass]="true"
+        [class]="'close-icon'"
+        (click)="onClickCloseButton()"
+      >
+      </svg-icon>
+    </div>
+    <div class="setting-row">
+      <div class="setting-name">Timer :</div>
+      <toggle-button
+        [isOn]="settingsService.isVisibleTimer"
+        (onClick)="onClickTimerToggleButton($event)"
+      ></toggle-button>
+    </div>
+    <div class="setting-row">
+      <div class="setting-name">Name :</div>
+      <div>toggle button</div>
+    </div>
+  </div>
+</div>

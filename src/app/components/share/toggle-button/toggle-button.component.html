@@ -1,0 +1,16 @@
+<div
+  class="toggle-outline"
+  [ngClass]="{
+    'toggle-outline-on': isOn,
+    'toggle-outline-off': !isOn
+  }"
+  (click)="onClickButton()"
+>
+  <div
+    id="toggle-circle"
+    [ngClass]="{
+      'toggle-circle-on': isOn,
+      'toggle-circle-off': !isOn
+    }"
+  ></div>
+</div>
