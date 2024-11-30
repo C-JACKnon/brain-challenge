@@ -12,15 +12,16 @@ export class DisplaySizeManagementService {
   // このゲームが対応する最小の画面サイズ
   private readonly MinSupportDisplaySize = 
   { 
-    height: 600,
-    width: 300
+    height: 660,
+    width: 340
   } as const;
 
   // このゲームが対応する最大の画面サイズ
+  // Figmaで定義した画面サイズ（ワイのiPhone14画面サイズ）
   private readonly MaxSupportDisplaySize = 
   { 
-    height: 950,
-    width: 550
+    height: 844,
+    width: 390
   } as const;
 
   // 画面に対して表示するアプリケーションのサイズ
