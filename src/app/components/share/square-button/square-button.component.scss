@@ -1,9 +1,11 @@
+@use "../../../../styles.scss";
+
 .button-outline {
   height: 65px;
   width: 200px;
-  border: solid #23DBFF;
+  border: solid styles.$neon-blue;
   border-radius: 10px;
-  box-shadow: 0px 0px 3px 0px #23DBFF, inset 0px 0px 3px 0px #23DBFF;
+  box-shadow: 0px 0px 3px 0px styles.$neon-blue, inset 0px 0px 3px 0px styles.$neon-blue;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +15,7 @@
 
 .button-outline:hover {
   background-color: #23daff0f;
-  box-shadow: 0px 0px 10px 0px #23DBFF, inset 0px 0px 10px 0px #23DBFF;
+  box-shadow: 0px 0px 10px 0px styles.$neon-blue, inset 0px 0px 10px 0px styles.$neon-blue;
 }
 
 .button-outline:active {
@@ -22,6 +24,6 @@
 
 .button-text {
   font-size: 24px;
-  color: #23DBFF;
-  text-shadow: 0px 0px 5px #23DBFF;
+  color: styles.$neon-blue;
+  text-shadow: 0px 0px 5px styles.$neon-blue;
 }
