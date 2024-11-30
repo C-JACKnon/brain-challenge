@@ -10,7 +10,25 @@
       </svg-icon>
     </div>
     <div class="title">Make 10</div>
-    <div class="buttons">
+    <div class="actions">
+      <div>
+        <input
+          type="text"
+          id="user-name"
+          placeholder="Player Name"
+          pattern="text"
+          maxlength="15"
+          autocomplete="off"
+          (focus)="onFocusUserNameInputForm(true)"
+          (blur)="onFocusUserNameInputForm(false)"
+        />
+        <div
+          id="user-name-bottom-line"
+          [ngClass]="{
+            'user-name-focus': isFocusUserNameInputForm
+          }"
+        ></div>
+      </div>
       <square-button
         [label]="'START'"
         (onClick)="onClickStartButton()"

@@ -60,7 +60,7 @@
   align-items: center;
 }
 
-.buttons {
+.actions {
   row-gap: 26px;
   display: flex;
   flex-direction: column;
@@ -73,4 +73,36 @@
   @media screen and (min-height: $threshold) {
     margin-bottom: 120px;
   }
+}
+
+#user-name {
+  height: 48px;
+  width: 246px;
+  text-align: right;
+  font-size: 24px;
+  background-color: #ccf1f927;
+  color: styles.$neon-white;
+  border: unset;
+  box-shadow: 0px 0px 3px 0px #ccf1f927, inset 0px 0px 3px 0px #ccf1f927;
+  transition: 0.2s;
+}
+
+#user-name::placeholder {
+  color: #ccf1f943;
+}
+
+#user-name:focus-visible {
+  outline: unset;
+  background-color: #ccf1f93a;
+  box-shadow: 0px 0px 10px 0px #ccf1f927, inset 0px 0px 10px 0px #ccf1f927;
+}
+
+#user-name-bottom-line {
+  width: 250px;
+  border-bottom: 1px solid styles.$neon-blue;
+  box-shadow: 0px 0px 3px 0px styles.$neon-blue, inset 0px 0px 3px 0px styles.$neon-blue;
+}
+
+.user-name-focus {
+  box-shadow: 0px 0px 10px 0px styles.$neon-blue, inset 0px 0px 10px 0px styles.$neon-blue !important;
 }
