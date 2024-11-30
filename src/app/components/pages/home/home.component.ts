@@ -28,13 +28,6 @@ export class HomeComponent {
   ) { }
 
   /**
-   * 設定ボタンクリックイベント
-   */
-  public onClickSettingsButton(): void {
-    this.changeComponentService.changePage(PAGE_ADDRESS.SETTINGS);
-  }
-
-  /**
    * STARTボタンクリックイベント
    */
   public onClickStartButton(): void {

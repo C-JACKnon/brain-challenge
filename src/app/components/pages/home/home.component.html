@@ -2,10 +2,10 @@
   <div class="home-elements">
     <div class="header-elements">
       <svg-icon
-        src="assets/settings.svg"
+        src="assets/help.svg"
         [applyClass]="true"
-        [class]="'setting-icon'"
-        (click)="onClickSettingsButton()"
+        [class]="'icon-button'"
+        (click)="onClickHowToPlayButton()"
       >
       </svg-icon>
     </div>
@@ -18,10 +18,6 @@
       <square-button
         [label]="'RANKING'"
         (onClick)="onClickRankingButton()"
-      />
-      <square-button
-        [label]="'How to play'"
-        (onClick)="onClickHowToPlayButton()"
       />
     </div>
   </div>
