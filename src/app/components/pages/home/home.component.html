@@ -16,16 +16,15 @@
           type="text"
           id="user-name"
           placeholder="Player Name"
-          pattern="text"
           maxlength="15"
           autocomplete="off"
-          (focus)="onFocusUserNameInputForm(true)"
-          (blur)="onFocusUserNameInputForm(false)"
+          (focus)="onFocusPlayerNameInputForm(true)"
+          (blur)="onFocusPlayerNameInputForm(false)"
         />
         <div
           id="user-name-bottom-line"
           [ngClass]="{
-            'user-name-focus': isFocusUserNameInputForm
+            'user-name-focus': isFocusPlayerNameInputForm
           }"
         ></div>
       </div>

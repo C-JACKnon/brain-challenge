@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
 import { SquareButtonComponent } from '../../share/square-button/square-button.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
+import { PlayerNameService } from '../../../core/services/player-name.service';
 
 /**
  * ホーム画面コンポーネント
@@ -20,26 +21,40 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
-  public isFocusUserNameInputForm: boolean = false;
+export class HomeComponent implements AfterViewInit {
+  public isFocusPlayerNameInputForm: boolean = false;
 
   /**
    * @constructor
    * @param changeComponentService 画面コンポーネント切替サービス
+   * @param playerNameService プレイヤー名サービス
    */
   constructor(
     private changeComponentService: ChangeComponentService,
+    private playerNameService: PlayerNameService,
   ) { }
 
   /**
-   * ユーザ名入力欄へのフォーカスイベント
+   * ライフサイクル: ビュー表示後
+   */
+  public ngAfterViewInit(): void {
+    // 登録されているプレイヤー名を設定する
+    const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
+    playerNameInputFormElement.value = this.playerNameService.playerName;
+  }
+
+  /**
+   * プレイヤー名入力欄へのフォーカスイベント
    * @param isFocus フォーカスされたか否か
    */
-  public onFocusUserNameInputForm(isFocus: boolean): void {
-    this.isFocusUserNameInputForm = isFocus;
+  public onFocusPlayerNameInputForm(isFocus: boolean): void {
+    this.isFocusPlayerNameInputForm = isFocus;
 
+    // 入力欄からフォーカスが外れた場合
     if (!isFocus) {
-      this.userNameValidation();
+      // 入力されたプレイヤー名の整形を行う
+      const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
+      playerNameInputFormElement.value = this.playerNameService.registerPlayerName(playerNameInputFormElement.value);
     }
   }
 
@@ -62,51 +77,5 @@ export class HomeComponent {
    */
   public onClickHowToPlayButton(): void {
     this.changeComponentService.changePage(PAGE_ADDRESS.HOW_TO);
-  }
-
-  /**
-   * ユーザ名バリデーションチェックを実行
-   * - 先頭と最後の空白を削除する
-   * - 最大文字数内に短くする
-   */
-  private userNameValidation(): void {
-    const userNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
-    let formatUserName = userNameInputFormElement.value;
-
-    // 先頭の空文字を削除する
-    let emptyIndex = 0;
-    for (let i = 0; i < formatUserName.length; i++) {
-      if (formatUserName[i] === ' ' || formatUserName[i] === '　') {
-        emptyIndex++;
-      }
-      else {
-        break;
-      }
-    }
-    if (emptyIndex > 0) {
-      formatUserName = formatUserName.slice(emptyIndex);
-    }
-
-    // 最後の空文字を削除する
-    emptyIndex = 0;
-    for (let i = formatUserName.length - 1; i >= 0; i--) {
-      if (formatUserName[i] === ' ' || formatUserName[i] === '　') {
-        emptyIndex++;
-      }
-      else {
-        break;
-      }
-    }
-    if (emptyIndex > 0) {
-      formatUserName = formatUserName.slice(0, -emptyIndex);
-    }
-
-    // 最大文字数を超えている場合は最後の文字から超えている文字数分削除する
-    const maxUserNameLength = 15;
-    if (formatUserName.length > maxUserNameLength) {
-      formatUserName = formatUserName.slice(0, maxUserNameLength);
-    }
-
-    userNameInputFormElement.value = formatUserName;
   }
 }
