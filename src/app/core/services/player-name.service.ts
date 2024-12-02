@@ -12,6 +12,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PlayerNameService {
+  private readonly PlayerNameLocalStorageKey: string = 'MakeTenPlayerName';
+
   // 設定されているプレイヤー名
   private _playerName: string = "";
   public get playerName(): string {
@@ -22,8 +24,7 @@ export class PlayerNameService {
    * @constructor
    */
   constructor() {
-    // TODO: localStorageに保存されてあるプレイヤー名を取得する
-    // TODO: 取得したプレイヤー名をそのままplayerNameに設定する
+    this.restorePlayerNameFromLocalStorage();
   }
 
   /**
@@ -37,8 +38,9 @@ export class PlayerNameService {
     
     // プレイヤー名が変更されている場合
     if (this._playerName != formatPlayerName) {
-      // TODO: 変更されたプレイヤー名をlocaleStorageに保存
       this._playerName = formatPlayerName;
+      // 変更されたプレイヤー名をlocaleStorageに保存
+      localStorage.setItem(this.PlayerNameLocalStorageKey, formatPlayerName);
     }
 
     return formatPlayerName;
@@ -89,5 +91,16 @@ export class PlayerNameService {
     }
 
     return formatPlayerName;
+  }
+
+  /**
+   * プレイヤー名をLocalStorageからリストアする
+   */
+  private restorePlayerNameFromLocalStorage(): void {
+    const playerName = localStorage.getItem(this.PlayerNameLocalStorageKey);
+    if (playerName != null && playerName.length > 0) {
+      console.info('Restore player name from LocalStorage:', playerName);
+      this._playerName = playerName;
+    }
   }
 }
