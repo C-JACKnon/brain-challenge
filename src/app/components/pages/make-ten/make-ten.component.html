@@ -1,1 +1,29 @@
-<p>make-ten works!</p>
+<div class="display-component">
+  <div class="make-ten-elements">
+    <div class="header">
+      <div class="header-elements">
+        <div class="header-text">Make 10</div>
+        <svg-icon
+          src="assets/flag.svg"
+          [applyClass]="true"
+          [class]="'icon-button'"
+          (click)="onClickFlagButton()"
+        ></svg-icon>
+      </div>
+      <div class="header-bottom-border"></div>
+    </div>
+    <div class="make-ten-info-area">
+      <div class="make-ten-info-elements">
+        <div class="question-count-mark">
+          <div class="pentagon-mark-line one" [ngClass]="{ 'highlights': questionCounter >= 1 }"></div>
+          <div class="pentagon-mark-line two" [ngClass]="{ 'highlights': questionCounter >= 2 }"></div>
+          <div class="pentagon-mark-line three" [ngClass]="{ 'highlights': questionCounter >= 3 }"></div>
+          <div class="pentagon-mark-line four" [ngClass]="{ 'highlights': questionCounter >= 4 }"></div>
+          <div class="pentagon-mark-line five" [ngClass]="{ 'highlights': questionCounter >= 5 }"></div>
+          <div class="question-counter">1</div>
+        </div>
+        <div appTimeFormat class="timer" [time]="time">test</div>
+      </div>
+    </div>
+  </div>
+</div>
