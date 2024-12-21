@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
-import { SquareButtonComponent } from '../../share/square-button/square-button.component';
+import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from '../../share/square-button/square-button.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
 import { PlayerNameService } from '../../../core/services/player-name.service';
@@ -22,6 +22,8 @@ import { PlayerNameService } from '../../../core/services/player-name.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements AfterViewInit {
+  public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
+  
   public isFocusPlayerNameInputForm: boolean = false;
 
   /**

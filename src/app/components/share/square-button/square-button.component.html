@@ -1,5 +1,18 @@
-<div class="button-outline" (click)="onClickButton()">
-  <div class="button-text">
+<div
+  class="button-outline"
+  (click)="onClickButton()"
+  [ngClass]="{
+    'blue-outline': color === ColorType.BLUE,
+    'white-outline': color === ColorType.WHITE,
+  }"
+>
+  <div
+    class="button-text"
+    [ngClass]="{
+      'blue-text': color === ColorType.BLUE,
+      'white-text': color === ColorType.WHITE,
+    }"
+  >
     {{ label }}
   </div>
 </div>

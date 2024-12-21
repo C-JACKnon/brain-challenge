@@ -25,5 +25,11 @@
         <div appTimeFormat class="timer" [time]="time">test</div>
       </div>
     </div>
+    <div class="circle-button-area"></div>
+    <square-button
+      [label]="'RESET'"
+      [color]="SquareButtonColor.WHITE"
+      (onClick)="onClickResetButton()"
+    ></square-button>
   </div>
 </div>

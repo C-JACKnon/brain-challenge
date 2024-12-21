@@ -3,9 +3,7 @@
 .button-outline {
   height: 59px; // アウトライン分(6px)引いた値を設定
   width: 240px; // アウトライン分(6px)引いた値を設定
-  border: solid styles.$neon-blue;
   border-radius: 10px;
-  box-shadow: 0px 0px 3px 0px styles.$neon-blue, inset 0px 0px 3px 0px styles.$neon-blue;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,15 +13,44 @@
 
 .button-outline:hover {
   background-color: #23daff0f;
+}
+
+.blue-outline {
+  border: solid styles.$neon-blue;
+  box-shadow: 0px 0px 3px 0px styles.$neon-blue, inset 0px 0px 3px 0px styles.$neon-blue;
+}
+
+.blue-outline:hover {
   box-shadow: 0px 0px 10px 0px styles.$neon-blue, inset 0px 0px 10px 0px styles.$neon-blue;
 }
 
-.button-outline:active {
+.blue-outline:active {
   background-color: #23daff8b;
+}
+
+.white-outline {
+  border: solid styles.$neon-white;
+  box-shadow: 0px 0px 3px 0px styles.$neon-white, inset 0px 0px 3px 0px styles.$neon-white;
+}
+
+.white-outline:hover {
+  box-shadow: 0px 0px 10px 0px styles.$neon-white, inset 0px 0px 10px 0px styles.$neon-white;
+}
+
+.white-outline:active {
+  background-color: #ccf1f99b;
 }
 
 .button-text {
   font-size: 24px;
+}
+
+.blue-text {
   color: styles.$neon-blue;
   text-shadow: 0px 0px 5px styles.$neon-blue;
+}
+
+.white-text {
+  color: styles.$neon-white;
+  text-shadow: 0px 0px 5px styles.$neon-white;
 }

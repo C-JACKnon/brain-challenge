@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TimeFormatDirective } from '../../../core/directive/time-format.directive';
 import { MaxTime } from '../../../core/constants';
+import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from "../../share/square-button/square-button.component";
 
 /**
  * Make10画面コンポーネント
@@ -14,12 +15,14 @@ import { MaxTime } from '../../../core/constants';
   imports: [
     CommonModule,
     AngularSvgIconModule,
-    TimeFormatDirective
-  ],
+    TimeFormatDirective,
+    SquareButtonComponent
+],
   templateUrl: './make-ten.component.html',
   styleUrl: './make-ten.component.scss'
 })
 export class MakeTenComponent {
+  public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
   private readonly MaxQuestionCount: number = 5; // 最大問題数
 
   public questionCounter: number = 1; // 現在の問題数
@@ -52,9 +55,16 @@ export class MakeTenComponent {
   }
 
   /**
+   * リセットボタンクリックイベント
+   */
+  public onClickResetButton(): void {
+    console.log('Clicked RESET button.') // TODO: 動作確認のため追加
+  }
+
+  /**
    * タイマーをスタートさせる
    */
-  public startTimer(): void {
+  private startTimer(): void {
     if (this.time >= MaxTime) {
       return;
     }
@@ -71,7 +81,7 @@ export class MakeTenComponent {
   /**
    * タイマーをストップさせる
    */
-  public stopTImer(): void {
+  private stopTImer(): void {
     window.clearInterval(this.timerId);
   }
 }
