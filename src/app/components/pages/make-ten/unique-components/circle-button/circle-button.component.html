@@ -1,0 +1,24 @@
+<div
+  class="button-outline"
+  (click)="onClickButton()"
+  [ngClass]="{
+    'blue-outline': color === ColorType.BLUE,
+    'green-outline': color === ColorType.GREEN,
+    'yellow-outline': color === ColorType.YELLOW,
+    'red-outline': color === ColorType.RED,
+    'purple-outline': color === ColorType.PURPLE,
+  }"
+>
+  <div
+    class="button-text"
+    [ngClass]="{
+      'blue-text': color === ColorType.BLUE,
+      'green-text': color === ColorType.GREEN,
+      'yellow-text': color === ColorType.YELLOW,
+      'red-text': color === ColorType.RED,
+      'purple-text': color === ColorType.PURPLE,
+    }"
+  >
+    {{ label }}
+  </div>
+</div>

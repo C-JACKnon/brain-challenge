@@ -25,10 +25,133 @@
         <div appTimeFormat class="timer" [time]="time">test</div>
       </div>
     </div>
-    <div class="circle-button-area"></div>
+    <div id="circle-button-area">
+      <!-- TODO: 動作確認のために追加 -->
+      <circle-button
+        *ngIf="questionCounter % 3 === 1"
+        [label]="'1'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.selectOne.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.selectOne.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FIRST)"
+      ></circle-button>
+      <circle-button
+        *ngIf="questionCounter % 3 === 2"
+        [label]="'1'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.selectTwo.first.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.selectTwo.first.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FIRST)"
+      ></circle-button>
+      <circle-button
+        *ngIf="questionCounter % 3 === 2"
+        [label]="'1'"
+        [color]="CircleButtonColor.GREEN"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.selectTwo.second.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.selectTwo.second.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.PLUS)"
+      ></circle-button>
+      <circle-button
+        *ngIf="questionCounter % 3 === 0"
+        [label]="'1'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.selectThree.first.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.selectThree.first.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FIRST)"
+      ></circle-button>
+      <circle-button
+        *ngIf="questionCounter % 3 === 0"
+        [label]="'1'"
+        [color]="CircleButtonColor.GREEN"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.selectThree.second.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.selectThree.second.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.PLUS)"
+      ></circle-button>
+      <circle-button
+        *ngIf="questionCounter % 3 === 0"
+        [label]="'1'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.selectThree.third.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.selectThree.third.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FIRST)"
+      ></circle-button>
+
+
+      <circle-button
+        [label]="'1'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.numberFirst.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.numberFirst.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FIRST)"
+      ></circle-button>
+      <circle-button
+        [label]="'2'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.numberSecond.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.numberSecond.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_SECOND)"
+      ></circle-button>
+      <circle-button
+        [label]="'3'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.numberThird.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.numberThird.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_THIRD)"
+      ></circle-button>
+      <circle-button
+        [label]="'4'"
+        [color]="CircleButtonColor.BLUE"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.numberFourth.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.numberFourth.left + 'px'"
+        (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FOURTH)"
+      ></circle-button>
+      <circle-button
+        [label]="'+'"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.plus.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.plus.left + 'px'"
+        [color]="CircleButtonColor.GREEN"
+        (onClick)="onClickCircleButton(CircleButtonType.PLUS)"
+      ></circle-button>
+      <circle-button
+        [label]="'-'"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.minus.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.minus.left + 'px'"
+        [color]="CircleButtonColor.YELLOW"
+        (onClick)="onClickCircleButton(CircleButtonType.MINUS)"
+      ></circle-button>
+      <circle-button
+        [label]="'×'"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.multipliedBy.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.multipliedBy.left + 'px'"
+        [color]="CircleButtonColor.RED"
+        (onClick)="onClickCircleButton(CircleButtonType.MULTIPLIED_BY)"
+      ></circle-button>
+      <circle-button
+        [label]="'÷'"
+        class="circle-button"
+        [style.top]="PositionInCircleButtonArea.dividedBy.top + 'px'"
+        [style.left]="PositionInCircleButtonArea.dividedBy.left + 'px'"
+        [color]="CircleButtonColor.PURPLE"
+        (onClick)="onClickCircleButton(CircleButtonType.DIVIDED_BY)"
+      ></circle-button>
+    </div>
     <square-button
       [label]="'RESET'"
       [color]="SquareButtonColor.WHITE"
+      class="reset-button"
       (onClick)="onClickResetButton()"
     ></square-button>
   </div>

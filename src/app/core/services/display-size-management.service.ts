@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DisplaySize } from '../interfaces/display-size.interface';
+import { Observable, Subject } from 'rxjs';
 
 /**
  * 画面サイズ管理サービス
@@ -34,6 +35,10 @@ export class DisplaySizeManagementService {
     return this._applicationSize;
   }
 
+  // アプリケーションサイズ変更通知
+  private _applicationResizeNotification: Subject<DisplaySize> = new Subject<DisplaySize>();
+  public applicationResizeNotification: Observable<DisplaySize> = this._applicationResizeNotification.asObservable();
+
   /**
    * アプリケーションサイズの更新
    * @returns 新たに設定したアプリケーションサイズ
@@ -63,7 +68,9 @@ export class DisplaySizeManagementService {
     else {
       this._applicationSize.width = displaySize.width;
     }
-    // console.log('Update application size.', this._applicationSize);
+
+    // リサイズを通知
+    this._applicationResizeNotification.next(this._applicationSize);
 
     return this._applicationSize;
   }

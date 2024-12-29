@@ -154,3 +154,26 @@
     }
   }
 }
+
+#circle-button-area {
+  background-color: #ffffff24; // TODO: 動作確認のために追加
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  .circle-button {
+    position: absolute;
+  }
+}
+
+.reset-button {
+  margin-top: 60px;
+
+  $threshold: 752px;
+  @media screen and (max-height: $threshold) {
+    margin-bottom: 80px;
+  }
+  @media screen and (min-height: $threshold) {
+    margin-bottom: 180px;
+  }
+}
