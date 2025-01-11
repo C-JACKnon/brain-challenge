@@ -1,4 +1,5 @@
 import { animate, animateChild, query, sequence, style, transition, trigger } from "@angular/animations";
+import { VisiblePageAnimationTimeFirst, VisiblePageAnimationTimeSecond } from "./core/constants";
 
 export const fadeInAnimation = trigger('routeAnimations', [
   transition('* <=> *', [
@@ -19,7 +20,7 @@ export const fadeInAnimation = trigger('routeAnimations', [
     query(':leave', animateChild(), { optional: true }),
     query(':enter', [
       style({ opacity: 0 }),
-      animate('300ms 100ms ease', style({ opacity: 1 })),
+      animate(VisiblePageAnimationTimeFirst + 'ms ' + VisiblePageAnimationTimeSecond + 'ms ease', style({ opacity: 1 })),
     ], { optional: true }),
     query(':enter', animateChild(), { optional: true }),
   ]),
