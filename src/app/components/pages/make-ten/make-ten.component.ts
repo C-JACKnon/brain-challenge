@@ -115,6 +115,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     [31, 32, 33, 34],
     [41, 42, 43, 44],
   ];
+
+  private selectedButtonList: CIRCLE_BUTTON_TYPE[] = []; // 選択状態の丸ボタンリスト
   
   public time: number = 0; // 経過時間 (ms)
   private timerId: number = 0; // タイマー停止用のID
@@ -186,10 +188,22 @@ export class MakeTenComponent implements OnInit, OnDestroy {
 
   /**
    * 丸ボタンクリックイベント
-   * @param clickedButtonType クリックされたボタンの種類
+   * @param clickedButton クリックされたボタン
    */
-  public onClickCircleButton(clickedButtonType: CIRCLE_BUTTON_TYPE): void {
-    console.log('Clicked CIRCLE button. :', clickedButtonType); // TODO: 動作確認のため追加
+  public onClickCircleButton(clickedButton: CIRCLE_BUTTON_TYPE): void {
+    if (this.selectedButtonList.length === 3) {
+      return;
+    }
+
+    // クリックされたボタンが選択されているか判定する
+    if (this.selectedButtonList.includes(clickedButton)) {
+      // 非選択状態にする
+      this.unselectCircleButton(clickedButton);
+    }
+    else {
+      // 選択状態にする
+      this.selectCircleButton(clickedButton);
+    }
   }
 
   /**
@@ -197,6 +211,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    */
   public onClickResetButton(): void {
     this.initCircleButton(false); // 丸ボタンの初期化処理
+    this.selectedButtonList.length = 0;
   }
 
   /**
@@ -305,29 +320,18 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.circleButtonParams.numberThird.label = this.questionList[this.questionCounter - 1][2].toString();
     this.circleButtonParams.numberFourth.label = this.questionList[this.questionCounter - 1][3].toString();
 
-    // 丸ボタン表示位置をを1つのボタンを選択した位置に設定
-    this.circleButtonParams.numberFirst.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.numberFirst.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.numberSecond.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.numberSecond.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.numberThird.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.numberThird.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.numberFourth.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.numberFourth.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.plus.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.plus.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.minus.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.minus.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.multipliedBy.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.multipliedBy.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.dividedBy.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.dividedBy.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.calculatedNumberFirst.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.calculatedNumberFirst.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.calculatedNumberSecond.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.calculatedNumberSecond.left = this.positionInCircleButtonArea.selectOne.left;
-    this.circleButtonParams.calculatedNumberThird.top = this.positionInCircleButtonArea.selectOne.top;
-    this.circleButtonParams.calculatedNumberThird.left = this.positionInCircleButtonArea.selectOne.left;
+    // 丸ボタンの表示位置を1つのボタンを選択した位置に設定
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_FIRST, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_SECOND, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_THIRD, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_FOURTH, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.PLUS, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.MINUS, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.MULTIPLIED_BY, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.DIVIDED_BY, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_FIRST, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_SECOND, this.positionInCircleButtonArea.selectOne);
+    this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_THIRD, this.positionInCircleButtonArea.selectOne);
 
     // 500ms後に丸ボタンを各初期位置に設定する
     let timeout = 200;
@@ -336,22 +340,14 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       timeout += VisiblePageAnimationTime;
     }
     setTimeout(() => {
-      this.circleButtonParams.numberFirst.top = this.positionInCircleButtonArea.numberFirst.top;
-      this.circleButtonParams.numberFirst.left = this.positionInCircleButtonArea.numberFirst.left;
-      this.circleButtonParams.numberSecond.top = this.positionInCircleButtonArea.numberSecond.top;
-      this.circleButtonParams.numberSecond.left = this.positionInCircleButtonArea.numberSecond.left;
-      this.circleButtonParams.numberThird.top = this.positionInCircleButtonArea.numberThird.top;
-      this.circleButtonParams.numberThird.left = this.positionInCircleButtonArea.numberThird.left;
-      this.circleButtonParams.numberFourth.top = this.positionInCircleButtonArea.numberFourth.top;
-      this.circleButtonParams.numberFourth.left = this.positionInCircleButtonArea.numberFourth.left;
-      this.circleButtonParams.plus.top = this.positionInCircleButtonArea.plus.top;
-      this.circleButtonParams.plus.left = this.positionInCircleButtonArea.plus.left;
-      this.circleButtonParams.minus.top = this.positionInCircleButtonArea.minus.top;
-      this.circleButtonParams.minus.left = this.positionInCircleButtonArea.minus.left;
-      this.circleButtonParams.multipliedBy.top = this.positionInCircleButtonArea.multipliedBy.top;
-      this.circleButtonParams.multipliedBy.left = this.positionInCircleButtonArea.multipliedBy.left;
-      this.circleButtonParams.dividedBy.top = this.positionInCircleButtonArea.dividedBy.top;
-      this.circleButtonParams.dividedBy.left = this.positionInCircleButtonArea.dividedBy.left;
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_FIRST);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_SECOND);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_THIRD);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_FOURTH);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.PLUS);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.MINUS);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.MULTIPLIED_BY);
+      this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.DIVIDED_BY);
 
       // ページ遷移時のアニメーション終了後にアニメーション時間を再設定する
       if (isPageVisible) {
@@ -360,5 +356,202 @@ export class MakeTenComponent implements OnInit, OnDestroy {
         }, this.InitCircleButtonTransitionTime);
       }
     }, timeout);
+  }
+
+  /**
+   * 対象の丸ボタンを選択状態にする
+   * @param targetButton 選択状態にする丸ボタン
+   */
+  private selectCircleButton(targetButton: CIRCLE_BUTTON_TYPE): void {
+    // 選択状態の丸ボタンがない場合
+    if (this.selectedButtonList.length === 0) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.selectOne);
+      this.selectedButtonList.push(targetButton);
+    }
+    // 選択状態の丸ボタンが1つの場合
+    else if (this.selectedButtonList.length === 1) {
+      // 既に演算ボタンが選択されている場合
+      if (this.isSelectedOperatorButton()) {
+        // 選択状態にするボタンが数字ボタンの場合
+        if (this.isNumberCircleButton(targetButton)) {
+          // 選択ボタンを[数字ボタン, 演算ボタン]の状態にする
+          this.selectedButtonList.unshift(targetButton);
+        }
+        else {
+          // 選択状態の演算ボタンを交換する
+          this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.selectOne);
+          this.resetCircleButtonPosition(this.selectedButtonList[0]);
+          this.selectedButtonList[0] = targetButton;
+          return;
+        }
+      }
+      // まだ演算ボタンが選択されていない場合
+      else {
+        this.selectedButtonList.push(targetButton);
+      }
+      this.setCircleButtonPosition(this.selectedButtonList[0], this.positionInCircleButtonArea.selectTwo.first);
+      this.setCircleButtonPosition(this.selectedButtonList[1], this.positionInCircleButtonArea.selectTwo.second);
+    }
+    // 選択状態の丸ボタンが2つの場合
+    else if (this.selectedButtonList.length === 2) {
+      // 既に演算ボタンが選択されている場合
+      if (this.isSelectedOperatorButton()) {
+        // 選択状態にするボタンが数字ボタンの場合
+        if (this.isNumberCircleButton(targetButton)) {
+          // 選択ボタンを[数字ボタン, 演算ボタン, 数字ボタン]の状態にする
+          this.setCircleButtonPosition(this.selectedButtonList[0], this.positionInCircleButtonArea.selectThree.first);
+          this.setCircleButtonPosition(this.selectedButtonList[1], this.positionInCircleButtonArea.selectThree.second);
+          this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.selectThree.third);
+          this.selectedButtonList.push(targetButton);
+        }
+        else {
+          // 選択状態の演算ボタンを交換する
+          this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.selectTwo.second);
+          this.resetCircleButtonPosition(this.selectedButtonList[1]);
+          this.selectedButtonList[1] = targetButton;
+          return;
+        }
+      }
+      // まだ演算ボタンが選択されていない場合
+      else {
+        // 選択状態にするボタンが数字ボタンの場合
+        if (this.isNumberCircleButton(targetButton)) {
+          // 選択状態の2つ目の数字ボタンを交換する
+          this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.selectTwo.second);
+          this.resetCircleButtonPosition(this.selectedButtonList[1]);
+          this.selectedButtonList[1] = targetButton;
+          return;
+        }
+        else {
+          // 選択ボタンを[数字ボタン, 演算ボタン, 数字ボタン]の状態にする
+          this.setCircleButtonPosition(this.selectedButtonList[0], this.positionInCircleButtonArea.selectThree.first);
+          this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.selectThree.second);
+          this.setCircleButtonPosition(this.selectedButtonList[1], this.positionInCircleButtonArea.selectThree.third);
+          this.selectedButtonList.splice(1, 0, targetButton);
+          return;
+        }
+      }
+    }
+  }
+
+  /**
+   * 対象の丸ボタンを非選択状態にする
+   * @param targetButton 非選択状態にする丸ボタン
+   */
+  private unselectCircleButton(targetButton: CIRCLE_BUTTON_TYPE): void {
+    const index = this.selectedButtonList.indexOf(targetButton);
+    this.resetCircleButtonPosition(this.selectedButtonList[index]);
+    // 選択状態の丸ボタンが2つの場合
+    if (this.selectedButtonList.length === 2) {
+      // 対象でない丸ボタンを1つのボタンを選択したときの位置にする
+      this.setCircleButtonPosition(this.selectedButtonList[1 - index], this.positionInCircleButtonArea.selectOne);
+    }
+    this.selectedButtonList.splice(index, 1);
+  }
+
+  /**
+   * 対象の丸ボタンを初期位置に戻す
+   * @param targetButton 対象の丸ボタン
+   */
+  private resetCircleButtonPosition(targetButton: CIRCLE_BUTTON_TYPE): void {
+    if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FIRST) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberFirst);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_SECOND) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberSecond);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_THIRD) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberThird);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FOURTH) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberFourth);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.PLUS) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.plus);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.MINUS) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.minus);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.MULTIPLIED_BY) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.multipliedBy);
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.DIVIDED_BY) {
+      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.dividedBy);
+    }
+  }
+
+  /**
+   * 対象の丸ボタンの表示位置を設定する
+   * @param targetButton 対象の丸ボタン
+   * @param position 設定する表示位置
+   */
+  private setCircleButtonPosition(targetButton: CIRCLE_BUTTON_TYPE, position: { top: number, left: number }): void {
+    if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FIRST) {
+      this.circleButtonParams.numberFirst.top = position.top;
+      this.circleButtonParams.numberFirst.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_SECOND) {
+      this.circleButtonParams.numberSecond.top = position.top;
+      this.circleButtonParams.numberSecond.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_THIRD) {
+      this.circleButtonParams.numberThird.top = position.top;
+      this.circleButtonParams.numberThird.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FOURTH) {
+      this.circleButtonParams.numberFourth.top = position.top;
+      this.circleButtonParams.numberFourth.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.PLUS) {
+      this.circleButtonParams.plus.top = position.top;
+      this.circleButtonParams.plus.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.MINUS) {
+      this.circleButtonParams.minus.top = position.top;
+      this.circleButtonParams.minus.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.MULTIPLIED_BY) {
+      this.circleButtonParams.multipliedBy.top = position.top;
+      this.circleButtonParams.multipliedBy.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.DIVIDED_BY) {
+      this.circleButtonParams.dividedBy.top = position.top;
+      this.circleButtonParams.dividedBy.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_FIRST) {
+      this.circleButtonParams.calculatedNumberFirst.top = position.top;
+      this.circleButtonParams.calculatedNumberFirst.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_SECOND) {
+      this.circleButtonParams.calculatedNumberSecond.top = position.top;
+      this.circleButtonParams.calculatedNumberSecond.left = position.left;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_THIRD) {
+      this.circleButtonParams.calculatedNumberThird.top = position.top;
+      this.circleButtonParams.calculatedNumberThird.left = position.left;
+    }
+  }
+
+  /**
+   * 対象の丸ボタンが数字ボタンかどうか判定する
+   * @param targetButton 対象の丸ボタン
+   * @returns 対象の丸ボタンが数字ボタンか否か
+   */
+  private isNumberCircleButton(targetButton: CIRCLE_BUTTON_TYPE): boolean {
+    return targetButton != CIRCLE_BUTTON_TYPE.PLUS
+      && targetButton != CIRCLE_BUTTON_TYPE.MINUS
+      && targetButton != CIRCLE_BUTTON_TYPE.MULTIPLIED_BY
+      && targetButton != CIRCLE_BUTTON_TYPE.DIVIDED_BY;
+  }
+
+  /**
+   * 既に演算ボタンが選択されているか判定する
+   * @returns いずれかの演算ボタンが選択状態か否か
+   */
+  private isSelectedOperatorButton(): boolean {
+    return this.selectedButtonList.includes(CIRCLE_BUTTON_TYPE.PLUS)
+      || this.selectedButtonList.includes(CIRCLE_BUTTON_TYPE.MINUS)
+      || this.selectedButtonList.includes(CIRCLE_BUTTON_TYPE.MULTIPLIED_BY)
+      || this.selectedButtonList.includes(CIRCLE_BUTTON_TYPE.DIVIDED_BY);
   }
 }
