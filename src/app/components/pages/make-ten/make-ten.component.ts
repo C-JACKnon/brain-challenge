@@ -55,7 +55,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   // 丸ボタン初期化時のtransition
   private readonly InitCircleButtonTransition: string = 'top ' + this.InitCircleButtonTransitionTime + 'ms,'
                                                         +'left ' + this.InitCircleButtonTransitionTime + 'ms';
-  private readonly CircleButtonTransition: string = 'top 100ms, left 100ms'; // 丸ボタン通常時のtransition
+  private readonly CircleButtonTransition: string = 'top 150ms, left 150ms'; // 丸ボタン通常時のtransition
   
   /**
    * 丸ボタンエリア内の位置の値
@@ -351,7 +351,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_THIRD, this.positionInCircleButtonArea.selectOne);
 
     // 500ms後に丸ボタンを各初期位置に設定する
-    let timeout = 200;
+    let timeout = 400;
     // ページ遷移時の場合は表示アニメーション時間を加算する
     if (isPageVisible) {
       timeout += VisiblePageAnimationTime;
