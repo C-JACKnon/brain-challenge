@@ -26,10 +26,11 @@
       </div>
     </div>
     <div id="circle-button-area">
-      <!-- 数字ボタン -->
+      <!-- 1つ目の数字ボタン -->
       <circle-button
         [label]="circleButtonParams.numberFirst.label"
         [color]="CircleButtonColor.BLUE"
+        id="circle-button-{{CircleButtonType.NUMBER_FIRST}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.opacity]="circleButtonParams.numberFirst.isVisible ? 1 : 0"
@@ -38,9 +39,18 @@
         [style.left]="circleButtonParams.numberFirst.left + 'px'"
         (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FIRST)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.numberFirst.isVisible ? 'unset' : 'none'"
+        [style.top]="circleButtonParams.numberFirst.top + 'px'"
+        [style.left]="circleButtonParams.numberFirst.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.NUMBER_FIRST)"
+      ></div>
+      <!-- 2つ目の数字ボタン -->
       <circle-button
         [label]="circleButtonParams.numberSecond.label"
         [color]="CircleButtonColor.BLUE"
+        id="circle-button-{{CircleButtonType.NUMBER_SECOND}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.opacity]="circleButtonParams.numberSecond.isVisible ? 1 : 0"
@@ -49,9 +59,18 @@
         [style.left]="circleButtonParams.numberSecond.left + 'px'"
         (onClick)="onClickCircleButton(CircleButtonType.NUMBER_SECOND)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.numberSecond.isVisible ? 'unset' : 'none'"
+        [style.top]="circleButtonParams.numberSecond.top + 'px'"
+        [style.left]="circleButtonParams.numberSecond.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.NUMBER_SECOND)"
+      ></div>
+      <!-- 3つ目の数字ボタン -->
       <circle-button
         [label]="circleButtonParams.numberThird.label"
         [color]="CircleButtonColor.BLUE"
+        id="circle-button-{{CircleButtonType.NUMBER_THIRD}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.opacity]="circleButtonParams.numberThird.isVisible ? 1 : 0"
@@ -60,9 +79,18 @@
         [style.left]="circleButtonParams.numberThird.left + 'px'"
         (onClick)="onClickCircleButton(CircleButtonType.NUMBER_THIRD)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.numberThird.isVisible ? 'unset' : 'none'"
+        [style.top]="circleButtonParams.numberThird.top + 'px'"
+        [style.left]="circleButtonParams.numberThird.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.NUMBER_THIRD)"
+      ></div>
+      <!-- 4つ目の数字ボタン -->
       <circle-button
         [label]="circleButtonParams.numberFourth.label"
         [color]="CircleButtonColor.BLUE"
+        id="circle-button-{{CircleButtonType.NUMBER_FOURTH}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.opacity]="circleButtonParams.numberFourth.isVisible ? 1 : 0"
@@ -71,9 +99,17 @@
         [style.left]="circleButtonParams.numberFourth.left + 'px'"
         (onClick)="onClickCircleButton(CircleButtonType.NUMBER_FOURTH)"
       ></circle-button>
-      <!-- 演算子ボタン -->
+      <div
+        class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.numberFourth.isVisible ? 'unset' : 'none'"
+        [style.top]="circleButtonParams.numberFourth.top + 'px'"
+        [style.left]="circleButtonParams.numberFourth.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.NUMBER_FOURTH)"
+      ></div>
+      <!-- 「＋」ボタン -->
       <circle-button
         [label]="circleButtonParams.plus.label"
+        id="circle-button-{{CircleButtonType.PLUS}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.top]="circleButtonParams.plus.top + 'px'"
@@ -81,8 +117,16 @@
         [color]="CircleButtonColor.GREEN"
         (onClick)="onClickCircleButton(CircleButtonType.PLUS)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.top]="circleButtonParams.plus.top + 'px'"
+        [style.left]="circleButtonParams.plus.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.PLUS)"
+      ></div>
+      <!-- 「―」ボタン -->
       <circle-button
         [label]="circleButtonParams.minus.label"
+        id="circle-button-{{CircleButtonType.MINUS}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.top]="circleButtonParams.minus.top + 'px'"
@@ -90,8 +134,16 @@
         [color]="CircleButtonColor.YELLOW"
         (onClick)="onClickCircleButton(CircleButtonType.MINUS)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.top]="circleButtonParams.minus.top + 'px'"
+        [style.left]="circleButtonParams.minus.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.MINUS)"
+      ></div>
+      <!-- 「×」ボタン -->
       <circle-button
         [label]="circleButtonParams.multipliedBy.label"
+        id="circle-button-{{CircleButtonType.MULTIPLIED_BY}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.top]="circleButtonParams.multipliedBy.top + 'px'"
@@ -99,8 +151,16 @@
         [color]="CircleButtonColor.RED"
         (onClick)="onClickCircleButton(CircleButtonType.MULTIPLIED_BY)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.top]="circleButtonParams.multipliedBy.top + 'px'"
+        [style.left]="circleButtonParams.multipliedBy.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.MULTIPLIED_BY)"
+      ></div>
+      <!-- 「÷」ボタン -->
       <circle-button
         [label]="circleButtonParams.dividedBy.label"
+        id="circle-button-{{CircleButtonType.DIVIDED_BY}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.top]="circleButtonParams.dividedBy.top + 'px'"
@@ -108,9 +168,16 @@
         [color]="CircleButtonColor.PURPLE"
         (onClick)="onClickCircleButton(CircleButtonType.DIVIDED_BY)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.top]="circleButtonParams.dividedBy.top + 'px'"
+        [style.left]="circleButtonParams.dividedBy.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.DIVIDED_BY)"
+      ></div>
       <!-- 1つ目の算出数字ボタン -->
       <circle-button
         [label]="circleButtonParams.calculatedNumberFirst.label"
+        id="circle-button-{{CircleButtonType.CALCULATED_NUMBER_FIRST}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.opacity]="circleButtonParams.calculatedNumberFirst.isVisible ? 1 : 0"
@@ -120,9 +187,17 @@
         [color]="CircleButtonColor.BLUE"
         (onClick)="onClickCircleButton(CircleButtonType.CALCULATED_NUMBER_FIRST)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.calculatedNumberFirst.isVisible ? 'unset' : 'none'"
+        [style.top]="circleButtonParams.calculatedNumberFirst.top + 'px'"
+        [style.left]="circleButtonParams.calculatedNumberFirst.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.CALCULATED_NUMBER_FIRST)"
+      ></div>
       <!-- 2つ目の算出数字ボタン -->
       <circle-button
         [label]="circleButtonParams.calculatedNumberSecond.label"
+        id="circle-button-{{CircleButtonType.CALCULATED_NUMBER_SECOND}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
         [style.opacity]="circleButtonParams.calculatedNumberSecond.isVisible ? 1 : 0"
@@ -132,6 +207,13 @@
         [color]="CircleButtonColor.BLUE"
         (onClick)="onClickCircleButton(CircleButtonType.CALCULATED_NUMBER_SECOND)"
       ></circle-button>
+      <div
+        class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.calculatedNumberSecond.isVisible ? 'unset' : 'none'"
+        [style.top]="circleButtonParams.calculatedNumberSecond.top + 'px'"
+        [style.left]="circleButtonParams.calculatedNumberSecond.left + 'px'"
+        (click)="onClickClearCircleButton(CircleButtonType.CALCULATED_NUMBER_SECOND)"
+      ></div>
       <!-- 3つ目の算出数字ボタン -->
       <circle-button
         [label]="circleButtonParams.calculatedNumberThird.label"

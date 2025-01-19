@@ -162,6 +162,15 @@
 
   .circle-button {
     position: absolute;
+    z-index: 2;
+  }
+
+  .clear-circle-button {
+    position: absolute;
+    z-index: 1;
+    height: 62px;
+    width: 62px;
+    border-radius: 50%;
   }
 }
 

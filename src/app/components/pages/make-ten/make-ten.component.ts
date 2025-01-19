@@ -207,6 +207,23 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * 先行入力用透明丸ボタンクリックイベント
+   * @param clickedButton クリックされたボタン
+   */
+  public onClickClearCircleButton(clickedButton: CIRCLE_BUTTON_TYPE): void {
+    // 対応する丸ボタンのクリックイベントを発火させる
+    const parentElement = document.getElementById(`circle-button-${clickedButton}`);
+    if (parentElement === null) {
+      throw new Error(`[Make10] onClickClearCircleButton(${clickedButton}) : Failed to get element.`);
+    }
+    const targetElement = parentElement.firstChild;
+    if (targetElement === null) {
+      throw new Error(`[Make10] onClickClearCircleButton(${clickedButton}) : Failed to get element.`);
+    }
+    targetElement.dispatchEvent(new Event('click'));
+  }
+
+  /**
    * リセットボタンクリックイベント
    */
   public onClickResetButton(): void {
