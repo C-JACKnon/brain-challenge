@@ -472,28 +472,36 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    */
   private resetCircleButtonPosition(targetButton: CIRCLE_BUTTON_TYPE): void {
     if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FIRST) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberFirst);
+      this.circleButtonParams.numberFirst.top = this.positionInCircleButtonArea.numberFirst.top;
+      this.circleButtonParams.numberFirst.left = this.positionInCircleButtonArea.numberFirst.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_SECOND) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberSecond);
+      this.circleButtonParams.numberSecond.top = this.positionInCircleButtonArea.numberSecond.top;
+      this.circleButtonParams.numberSecond.left = this.positionInCircleButtonArea.numberSecond.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_THIRD) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberThird);
+      this.circleButtonParams.numberThird.top = this.positionInCircleButtonArea.numberThird.top;
+      this.circleButtonParams.numberThird.left = this.positionInCircleButtonArea.numberThird.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FOURTH) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.numberFourth);
+      this.circleButtonParams.numberFourth.top = this.positionInCircleButtonArea.numberFourth.top;
+      this.circleButtonParams.numberFourth.left = this.positionInCircleButtonArea.numberFourth.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.PLUS) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.plus);
+      this.circleButtonParams.plus.top = this.positionInCircleButtonArea.plus.top;
+      this.circleButtonParams.plus.left = this.positionInCircleButtonArea.plus.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.MINUS) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.minus);
+      this.circleButtonParams.minus.top = this.positionInCircleButtonArea.minus.top;
+      this.circleButtonParams.minus.left = this.positionInCircleButtonArea.minus.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.MULTIPLIED_BY) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.multipliedBy);
+      this.circleButtonParams.multipliedBy.top = this.positionInCircleButtonArea.multipliedBy.top;
+      this.circleButtonParams.multipliedBy.left = this.positionInCircleButtonArea.multipliedBy.left;
     }
     else if (targetButton === CIRCLE_BUTTON_TYPE.DIVIDED_BY) {
-      this.setCircleButtonPosition(targetButton, this.positionInCircleButtonArea.dividedBy);
+      this.circleButtonParams.dividedBy.top = this.positionInCircleButtonArea.dividedBy.top;
+      this.circleButtonParams.dividedBy.left = this.positionInCircleButtonArea.dividedBy.left;
     }
   }
 
