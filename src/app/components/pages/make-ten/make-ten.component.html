@@ -112,6 +112,8 @@
         id="circle-button-{{CircleButtonType.PLUS}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
+        [style.opacity]="circleButtonParams.plus.isVisible ? 1 : 0"
+        [style.pointer-events]="circleButtonParams.plus.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.plus.top + 'px'"
         [style.left]="circleButtonParams.plus.left + 'px'"
         [color]="CircleButtonColor.GREEN"
@@ -119,6 +121,7 @@
       ></circle-button>
       <div
         class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.plus.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.plus.top + 'px'"
         [style.left]="circleButtonParams.plus.left + 'px'"
         (click)="onClickClearCircleButton(CircleButtonType.PLUS)"
@@ -129,6 +132,8 @@
         id="circle-button-{{CircleButtonType.MINUS}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
+        [style.opacity]="circleButtonParams.minus.isVisible ? 1 : 0"
+        [style.pointer-events]="circleButtonParams.minus.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.minus.top + 'px'"
         [style.left]="circleButtonParams.minus.left + 'px'"
         [color]="CircleButtonColor.YELLOW"
@@ -136,6 +141,7 @@
       ></circle-button>
       <div
         class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.minus.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.minus.top + 'px'"
         [style.left]="circleButtonParams.minus.left + 'px'"
         (click)="onClickClearCircleButton(CircleButtonType.MINUS)"
@@ -146,6 +152,8 @@
         id="circle-button-{{CircleButtonType.MULTIPLIED_BY}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
+        [style.opacity]="circleButtonParams.multipliedBy.isVisible ? 1 : 0"
+        [style.pointer-events]="circleButtonParams.multipliedBy.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.multipliedBy.top + 'px'"
         [style.left]="circleButtonParams.multipliedBy.left + 'px'"
         [color]="CircleButtonColor.RED"
@@ -153,6 +161,7 @@
       ></circle-button>
       <div
         class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.multipliedBy.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.multipliedBy.top + 'px'"
         [style.left]="circleButtonParams.multipliedBy.left + 'px'"
         (click)="onClickClearCircleButton(CircleButtonType.MULTIPLIED_BY)"
@@ -163,6 +172,8 @@
         id="circle-button-{{CircleButtonType.DIVIDED_BY}}"
         class="circle-button"
         [style.transition]="circleButtonParams.transition"
+        [style.opacity]="circleButtonParams.dividedBy.isVisible ? 1 : 0"
+        [style.pointer-events]="circleButtonParams.dividedBy.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.dividedBy.top + 'px'"
         [style.left]="circleButtonParams.dividedBy.left + 'px'"
         [color]="CircleButtonColor.PURPLE"
@@ -170,6 +181,7 @@
       ></circle-button>
       <div
         class="clear-circle-button"
+        [style.pointer-events]="circleButtonParams.dividedBy.isVisible ? 'unset' : 'none'"
         [style.top]="circleButtonParams.dividedBy.top + 'px'"
         [style.left]="circleButtonParams.dividedBy.left + 'px'"
         (click)="onClickClearCircleButton(CircleButtonType.DIVIDED_BY)"
