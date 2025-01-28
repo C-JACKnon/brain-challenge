@@ -63,11 +63,11 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly ResetWaitTime: number = 200; // リセットボタン押下時の待機時間(ms)
   private readonly InitCircleButtonTransitionTime: number = 300; // 丸ボタン初期化時のtransition時間(ms)
   // 丸ボタン初期化時のtransition
-  private readonly InitCircleButtonTransition: string = 'top ' + this.InitCircleButtonTransitionTime + 'ms,'
-                                                        +'left ' + this.InitCircleButtonTransitionTime + 'ms';
+  private readonly InitCircleButtonTransition: string = `top ${this.InitCircleButtonTransitionTime}ms, left ${this.InitCircleButtonTransitionTime}ms`;
   private readonly CircleButtonTransition: string = 'top 100ms, left 100ms'; // 丸ボタン通常時のtransition
   private readonly StartCalculateAnimationWaitTime: number = 80; // 演算アニメーションの開始待機時間(ms)
   private readonly FinishCalculateAfterWaitTime: number = 100; // 演算終了後の待機時間(ms)
+  private readonly AnswerAfterWaitTime: number = 500; // 回答後の待機時間(ms)
 
   /**
    * 丸ボタンエリア内の位置の値
@@ -707,12 +707,21 @@ export class MakeTenComponent implements OnInit, OnDestroy {
           this.selectedButtonList.forEach((targetButton: CIRCLE_BUTTON_TYPE) => {
             this.setIsVisibleCircleButton(targetButton, false);
           });
+
+          // 選択状態の丸ボタンの計算をする
+          const calculatedNumber = this.calculateNumber(this.selectedButtonList[0], this.selectedButtonList[2], this.selectedButtonList[1]);
+
+          // 0で割ってしまった場合
+          if (calculatedNumber === null) {
+            this.initCircleButton(false); // 丸ボタンの初期化処理
+            return;
+          }
           
-          // 演算と算出された数字ボタンの表示をする
+          // 算出された数字ボタンの表示をする
           if (calculateCount === 0) {
             // 1つ目の算出された数字ボタンを表示する
             this.circleButtonParams.calculatedNumberFirst.isVisible = true;
-            this.circleButtonParams.calculatedNumberFirst.label = '10'; // TODO: 演算処理
+            this.circleButtonParams.calculatedNumberFirst.label = calculatedNumber;
             window.setTimeout(() => {
               // 算出された数字ボタンを非選択状態の位置に配置
               this.setCalculatedNumberButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_FIRST);
@@ -727,7 +736,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
           else if (calculateCount === 1) {
             // 2つ目に算出された数字ボタンを表示する
             this.circleButtonParams.calculatedNumberSecond.isVisible = true;
-            this.circleButtonParams.calculatedNumberSecond.label = '20'; // TODO: 演算処理
+            this.circleButtonParams.calculatedNumberSecond.label = calculatedNumber;
             window.setTimeout(() => {
               // 算出された数字ボタンを非選択状態の位置に配置
               this.setCalculatedNumberButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_SECOND);
@@ -742,7 +751,14 @@ export class MakeTenComponent implements OnInit, OnDestroy {
           else if (calculateCount === 2) {
             // 3つ目に算出された数字ボタン（回答）を表示する
             this.circleButtonParams.calculatedNumberThird.isVisible = true;
-            this.circleButtonParams.calculatedNumberThird.label = '30'; // TODO: 演算処理
+            this.circleButtonParams.calculatedNumberThird.label = calculatedNumber;
+
+            // 不正解の場合
+            if (calculatedNumber != '10') {
+              window.setTimeout(() => {
+                this.initCircleButton(false); // 丸ボタンの初期化処理
+              }, this.AnswerAfterWaitTime);
+            }
             return;
           }
         }
@@ -910,4 +926,335 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  /**
+     * 与えられた数字を計算する
+     * @param firstNumberButton - 1つ目の数字ボタン
+     * @param secondNumberButton - 2つ目の数字ボタン
+     * @param operatorButton - 演算子ボタン
+     * @returns 計算結果 ※ただし分母が0となる場合にはnullを返す
+     */
+  private calculateNumber(
+    firstNumberButton: CIRCLE_BUTTON_TYPE,
+    secondNumberButton: CIRCLE_BUTTON_TYPE,
+    operatorButton: CIRCLE_BUTTON_TYPE
+  ): string | null {
+    let result: string | null = null; // 計算結果
+
+    // 数字ボタンに設定されているラベルを取得
+    const firstNumberButtonLabel = this.getNumberButtonLabel(firstNumberButton);
+    const secondNumberButtonLabel = this.getNumberButtonLabel(secondNumberButton);
+
+    // 値の文字列を数字の配列に変換
+		const firstNumberArray = this.convertStringValueToNumberArray(firstNumberButtonLabel);
+		const secondNumberArray = this.convertStringValueToNumberArray(secondNumberButtonLabel);
+
+    if (operatorButton === CIRCLE_BUTTON_TYPE.PLUS) {
+      result = this.calculatePlus(firstNumberArray, secondNumberArray);
+    }
+    else if (operatorButton === CIRCLE_BUTTON_TYPE.MINUS) {
+      result = this.calculateMinus(firstNumberArray, secondNumberArray);
+    }
+    else if (operatorButton === CIRCLE_BUTTON_TYPE.MULTIPLIED_BY) {
+      result = this.calculateMultipliedBy(firstNumberArray, secondNumberArray);
+    }
+    else if (operatorButton === CIRCLE_BUTTON_TYPE.DIVIDED_BY) {
+      result = this.calculateDividedBy(firstNumberArray, secondNumberArray);
+    }
+    else {
+      throw new Error(`[Make10] calculateNumber(${firstNumberButton}, ${secondNumberButton}, ${operatorButton}) : Unexpected argument set.`);
+    }
+    
+    return result;
+  }
+
+
+  /**
+   * 対象の数字ボタンのラベルを取得する
+   * @param targetButton 対象の数字ボタン
+   * @returns 数字ボタンに設定されているラベル
+   */
+  private getNumberButtonLabel(targetButton: CIRCLE_BUTTON_TYPE): string {
+    if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FIRST) {
+      return this.circleButtonParams.numberFirst.label;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_SECOND) {
+      return this.circleButtonParams.numberSecond.label;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_THIRD) {
+      return this.circleButtonParams.numberThird.label;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.NUMBER_FOURTH) {
+      return this.circleButtonParams.numberFourth.label;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_FIRST) {
+      return this.circleButtonParams.calculatedNumberFirst.label;
+    }
+    else if (targetButton === CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_SECOND) {
+      return this.circleButtonParams.calculatedNumberSecond.label;
+    }
+    throw new Error(`[Make10] getNumberButtonLabel(${targetButton}) : Unexpected argument set.`);
+  }
+
+  /**
+   * string型の値（分数許容）をnumber型の配列に変換する（1/2 => [1, 2]）
+   * @param targetValue 変換対象の値
+   * @returns 変換結果
+   */
+  private convertStringValueToNumberArray(targetValue: string): number[] {
+		const result: number[] = []; // 変換結果
+
+    const slashIndex = targetValue.indexOf('/');
+
+		// 分数の場合
+		if (slashIndex >= 0) {
+			result.push(Number(targetValue.substring(0, slashIndex))); // 分子を数字として格納
+			result.push(Number(targetValue.substring(slashIndex + 1, targetValue.length))); // 分母を数字として格納
+		}
+		// 分数でない場合
+		else {
+			result.push(Number(targetValue));
+		}
+
+		return result;
+  }
+
+  /**
+   * 足し算を行う
+   * @param firstNumberArray 1つ目の数字の配列
+   * @param secondNumberArray 2つ目の数字の配列
+   * @returns 計算結果（文字列）
+   */
+  private calculatePlus(firstNumberArray: number[], secondNumberArray: number[]): string {
+    // どちらも値が分数の場合
+		if (firstNumberArray.length > 1 && secondNumberArray.length > 1) {
+			// 分母の最小公倍数を求める
+			const leastCommonMultiple = this.getLeastCommonMultiple(firstNumberArray[1], secondNumberArray[1]);
+			// それぞれの分子を算出
+			const firstChildNumber = firstNumberArray[0] * (leastCommonMultiple / firstNumberArray[1]);
+			const secondChildNumber = secondNumberArray[0] * (leastCommonMultiple / secondNumberArray[1]);
+			// 分子同士を足し算する
+			const childNumber = firstChildNumber + secondChildNumber;
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, leastCommonMultiple);
+      return calculatedValue;
+		}
+		// 1つ目の値が分数の場合
+		else if (firstNumberArray.length > 1) {
+			// 2つ目の数字の分子を1つ目の数字の分母に合わせた値にする（通分）
+			const secondChildNumber = secondNumberArray[0] * firstNumberArray[1];
+			// 分子同士を足し算する
+			const childNumber = firstNumberArray[0] + secondChildNumber;
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, firstNumberArray[1]);
+      return calculatedValue;
+		}
+		// 2つ目の値が分数の場合
+		else if (secondNumberArray.length > 1) {
+			// 1つ目の数字の分子を2つ目の数字の分母に合わせた値にする（通分）
+			const firstChildNumber = firstNumberArray[0] * secondNumberArray[1];
+			// 分子同士を足し算する
+			const childNumber = firstChildNumber + secondNumberArray[0];
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, secondNumberArray[1]);
+      return calculatedValue;
+		}
+		// どちらも値が分数でない場合
+		else {
+			const calculatedValue = String(firstNumberArray[0] + secondNumberArray[0]);
+      return calculatedValue;
+		}
+  }
+
+  /**
+   * 引き算を行う
+   * @param firstNumberArray 1つ目の数字の配列
+   * @param secondNumberArray 2つ目の数字の配列
+   * @returns 計算結果（文字列）
+   */
+  private calculateMinus(firstNumberArray: number[], secondNumberArray: number[]): string {
+		// どちらも値が分数の場合
+		if (firstNumberArray.length > 1 && secondNumberArray.length > 1) {
+			// 分母の最小公倍数を求める
+			const leastCommonMultiple = this.getLeastCommonMultiple(firstNumberArray[1], secondNumberArray[1]);
+			// それぞれの分子を算出
+			const firstChildNumber = firstNumberArray[0] * (leastCommonMultiple / firstNumberArray[1]);
+			const secondChildNumber = secondNumberArray[0] * (leastCommonMultiple / secondNumberArray[1]);
+			// 分子同士を引き算する
+			const childNumber = firstChildNumber - secondChildNumber;
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, leastCommonMultiple);
+      return calculatedValue;
+		}
+		// 1つ目の値が分数の場合
+		else if (firstNumberArray.length > 1) {
+			// 2つ目の数字の分子を1つ目の数字の分母に合わせた値にする（通分）
+			const secondChildNumber = secondNumberArray[0] * firstNumberArray[1];
+			// 分子同士を引き算する
+			const childNumber = firstNumberArray[0] - secondChildNumber;
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, firstNumberArray[1]);
+      return calculatedValue;
+		}
+		// 2つ目の値が分数の場合
+		else if (secondNumberArray.length > 1) {
+			// 1つ目の数字の分子を2つ目の数字の分母に合わせた値にする（通分）
+			const firstChildNumber = firstNumberArray[0] * secondNumberArray[1];
+			// 分子同士を引き算する
+			const childNumber = firstChildNumber - secondNumberArray[0];
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, secondNumberArray[1]);
+      return calculatedValue;
+		}
+		// どちらも値が分数でない場合
+		else {
+			const calculatedValue = String(firstNumberArray[0] - secondNumberArray[0]);
+      return calculatedValue;
+		}
+  }
+
+  /**
+   * 掛け算を行う
+   * @param firstNumberArray 1つ目の数字の配列
+   * @param secondNumberArray 2つ目の数字の配列
+   * @returns 計算結果（文字列）
+   */
+  private calculateMultipliedBy(firstNumberArray: number[], secondNumberArray: number[]): string {
+		// どちらも値が分数の場合
+		if (firstNumberArray.length > 1 && secondNumberArray.length > 1) {
+			// 分子と分母をそれぞれ掛け算
+			const childNumber = firstNumberArray[0] * secondNumberArray[0]; // 分子を計算
+			const motherNumber = firstNumberArray[1] * secondNumberArray[1]; // 分母を計算 
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, motherNumber);
+      return calculatedValue;
+		}
+		// 1つ目の値が分数の場合
+		else if (firstNumberArray.length > 1) {
+			const childNumber = firstNumberArray[0] * secondNumberArray[0] // 分子を計算
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, firstNumberArray[1]);
+      return calculatedValue;
+		}
+		// 2つ目の値が分数の場合
+		else if (secondNumberArray.length > 1) {
+			const childNumber = firstNumberArray[0] * secondNumberArray[0]; // 分子を計算
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, secondNumberArray[1]);
+      return calculatedValue;
+		}
+		// どちらも値が分数でない場合
+		else {
+			const calculatedValue = String(firstNumberArray[0] * secondNumberArray[0]);
+      return calculatedValue;
+		}
+  }
+
+  /**
+   * 割り算を行う
+   * @param firstNumberArray 1つ目の数字の配列
+   * @param secondNumberArray 2つ目の数字の配列
+   * @returns 計算結果（文字列） ※ただし分母が0となる場合にはnullを返す
+   */
+  private calculateDividedBy(firstNumberArray: number[], secondNumberArray: number[]): string | null {
+    // 割る値が0の場合はnullを返す
+    if (secondNumberArray.length === 1 && secondNumberArray[0] === 0) {
+      return null;
+    }
+
+		// どちらも値が分数の場合
+		if (firstNumberArray.length > 1 && secondNumberArray.length > 1) {
+			// 逆数の掛け算
+			const childNumber = firstNumberArray[0] * secondNumberArray[1]; // 分子を計算
+			const motherNumber = firstNumberArray[1] * secondNumberArray[0]; // 分母を計算 
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, motherNumber);
+      return calculatedValue;
+		}
+		// 割られる値が分数の場合
+		else if (firstNumberArray.length > 1) {
+			const motherNumber = firstNumberArray[1] * secondNumberArray[0] // 分母を計算
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(firstNumberArray[0], motherNumber);
+      return calculatedValue;
+		}
+		// 割る値が分数の場合
+		else if (secondNumberArray.length > 1) {
+			const childNumber = firstNumberArray[0] * secondNumberArray[1]; // 分子を計算
+			// 約分した分数の文字列を取得
+			const calculatedValue = this.getReduceFractions(childNumber, secondNumberArray[0]);
+      return calculatedValue;
+		}
+		// どちらも値が分数でない場合
+		else {
+			// 割り切れる場合
+			if (firstNumberArray[0] % secondNumberArray[0] === 0) {
+				const calculatedValue = String(firstNumberArray[0] / secondNumberArray[0]);
+        return calculatedValue;
+			}
+			// 分数となる場合
+			else {
+				// 約分した分数の文字列を取得
+				const calculatedValue = this.getReduceFractions(firstNumberArray[0], secondNumberArray[0]);
+        return calculatedValue;
+			}
+		}
+  }
+
+  /**
+	 * 2つの数字の最小公倍数を算出する
+	 * @param firstNumber 1つ目の数字
+	 * @param secondNumber 2つ目の数字
+	 * @returns 2つの数字の最小公倍数
+	 */
+	private getLeastCommonMultiple(firstNumber: number, secondNumber: number): number {
+		let result = firstNumber * secondNumber; // 最小公倍数
+
+		// 最小公倍数を探索する
+		firstNumberMultiple: for (let i = 1; i <= secondNumber; i++) {
+			for (let j = 1; j <= firstNumber; j++) {
+				const first = firstNumber * i;
+				const second = secondNumber * j;
+				// 最小公倍数を見つけた場合
+				if (first === second) {
+					result = first;
+					break firstNumberMultiple;
+				}
+				else if (first < second) {
+					continue firstNumberMultiple;
+				}
+			}
+		}
+
+		return result;
+	}
+
+  /**
+	 * 約分した分数の文字列を取得する
+	 * @param childNumber 分子の値
+	 * @param motherNumber 分母の値
+	 * @returns 約分した分数の文字列
+	 */
+	private getReduceFractions(childNumber: number, motherNumber: number): string {
+		// 分子の値が分母の値以下の場合
+		const minValue = childNumber <= motherNumber ? childNumber : motherNumber;
+
+		// 最大公約数を求める
+		let greatestCommonDivisor = 1;
+		for (let i = minValue; i > 1; i--) {
+			// 最大公約数の場合
+			if (childNumber % i === 0 && motherNumber % i === 0) {
+				greatestCommonDivisor = i; // 最大公約数を更新
+				break;
+			}
+		}
+		
+    const calculatedMotherNumber = motherNumber / greatestCommonDivisor;
+    // 分母が1となる場合
+		if (calculatedMotherNumber === 1) {
+			return String(childNumber / greatestCommonDivisor);
+		}
+
+		return `${childNumber / greatestCommonDivisor}/${calculatedMotherNumber}`;
+	}
 }
