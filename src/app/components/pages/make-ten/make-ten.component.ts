@@ -47,7 +47,7 @@ export enum CALCULATE_ANIMATION_CONDITION {
     TimeFormatDirective,
     SquareButtonComponent,
     CircleButtonComponent
-],
+  ],
   templateUrl: './make-ten.component.html',
   styleUrl: './make-ten.component.scss'
 })
@@ -146,6 +146,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     | CIRCLE_BUTTON_TYPE.NUMBER_FOURTH
     = CIRCLE_BUTTON_TYPE.NUMBER_SECOND;
 
+  private calculatedResultValue: string | null = null; // 計算結果の値（分母が0となる場合はnull）
+  private currentCalculateCount: number = 0; // 現在の演算数
   private calculateAnimationCondition: CALCULATE_ANIMATION_CONDITION = CALCULATE_ANIMATION_CONDITION.FINISH; // 演算アニメーション状態
   
   public time: number = 0; // 経過時間 (ms)
@@ -182,7 +184,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setCalculateAnimation(); // 演算アニメーションの設定
       this.updatePositionInCircleButtonArea(); // 位置の値を更新
-      this.initCircleButton(true); // 丸ボタンの初期化処理
+      this.resetExecute(true); // 丸ボタンの初期化処理
     }, 0);
   }
 
@@ -235,9 +237,18 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       // 選択状態にする
       this.selectCircleButton(clickedButton);
 
-      // 回答する場合（2回演算が行われた状態で3つの丸ボタンを選択状態にした場合）
-      if (this.getCalculateCount() === 2 && this.selectedButtonList.length === 3) {
-        // TODO: タイマーストップ処理
+      // 3つの丸ボタンが選択状態の場合
+      if (this.selectedButtonList.length === 3) {
+        // 現在の演算数を取得する
+        this.currentCalculateCount = this.getCalculateCount();
+        
+        // 選択状態の丸ボタンを計算する
+        this.calculatedResultValue = this.calculateNumber(this.selectedButtonList[0], this.selectedButtonList[2], this.selectedButtonList[1]);
+
+        // 正解している場合
+        if (this.currentCalculateCount === 2 && this.calculatedResultValue === '10') {
+          // TODO: タイマーストップ処理
+        }
       }
     }
   }
@@ -263,7 +274,11 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    * リセットボタンクリックイベント
    */
   public onClickResetButton(): void {
-    this.initCircleButton(false); // 丸ボタンの初期化処理
+    // 正解している場合はリセットできない
+    if (this.currentCalculateCount === 2 && this.calculatedResultValue === '10') {
+      return;
+    }
+    this.resetExecute(false); // リセット実行
   }
 
   /**
@@ -353,11 +368,13 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * 丸ボタンを初期化する
+   * リセットを実行する
    * @param isPageVisible ページ表示時か否か
    */
-  private initCircleButton(isPageVisible: boolean): void {
-    this.selectedButtonList.length = 0;
+  private resetExecute(isPageVisible: boolean): void {
+    this.selectedButtonList.length = 0; // 丸ボタンをすべて非選択状態にする
+    this.currentCalculateCount = 0; // 現在の演算数をリセット
+    this.calculatedResultValue = null; // 計算結果をリセット
 
     // 丸ボタンの表示非表示を設定する
     this.circleButtonParams.numberFirst.isVisible = true;
@@ -686,8 +703,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
         
         // 3つの丸ボタンが選択状態となるアニメーションが終了した場合
         // （高さが変化するのは丸ボタンの選択状態を変更した場合のみ）
+        // 演算アニメーションが終了状態の場合、待機後に丸ボタンを中央に集めるアニメーションを実行する
         if (transitionendEvent.propertyName === 'top' && this.calculateAnimationCondition === CALCULATE_ANIMATION_CONDITION.FINISH) {
-          // 演算アニメーションが開始されてない場合、演算アニメーションを実行する
           this.calculateAnimationCondition = CALCULATE_ANIMATION_CONDITION.WAIT_START;
           window.setTimeout(() => {
             // 選択状態の丸ボタンを中央に集める
@@ -696,32 +713,26 @@ export class MakeTenComponent implements OnInit, OnDestroy {
             this.calculateAnimationCondition = CALCULATE_ANIMATION_CONDITION.START;
           }, this.StartCalculateAnimationWaitTime);
         }
-        // 演算アニメーションで選択状態の丸ボタンを中央に集めるアニメーションが終了した場合
+        // 選択状態の丸ボタンを中央に集めるアニメーションが終了した場合、計算結果に応じて各処理を行う
         else if (transitionendEvent.propertyName === 'left' && this.calculateAnimationCondition === CALCULATE_ANIMATION_CONDITION.START) {
           this.calculateAnimationCondition = CALCULATE_ANIMATION_CONDITION.FINISH;
-          
-          // 現在の演算数を取得
-          const calculateCount = this.getCalculateCount();
           
           // 選択状態の丸ボタンを全て非表示にする
           this.selectedButtonList.forEach((targetButton: CIRCLE_BUTTON_TYPE) => {
             this.setIsVisibleCircleButton(targetButton, false);
           });
 
-          // 選択状態の丸ボタンの計算をする
-          const calculatedNumber = this.calculateNumber(this.selectedButtonList[0], this.selectedButtonList[2], this.selectedButtonList[1]);
-
-          // 0で割ってしまった場合
-          if (calculatedNumber === null) {
-            this.initCircleButton(false); // 丸ボタンの初期化処理
+          // 計算結果の分母が0の場合
+          if (this.calculatedResultValue === null) {
+            this.resetExecute(false); // リセット実行
             return;
           }
           
           // 算出された数字ボタンの表示をする
-          if (calculateCount === 0) {
+          if (this.currentCalculateCount === 0) {
             // 1つ目の算出された数字ボタンを表示する
             this.circleButtonParams.calculatedNumberFirst.isVisible = true;
-            this.circleButtonParams.calculatedNumberFirst.label = calculatedNumber;
+            this.circleButtonParams.calculatedNumberFirst.label = this.calculatedResultValue;
             window.setTimeout(() => {
               // 算出された数字ボタンを非選択状態の位置に配置
               this.setCalculatedNumberButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_FIRST);
@@ -733,10 +744,10 @@ export class MakeTenComponent implements OnInit, OnDestroy {
             }, this.FinishCalculateAfterWaitTime);
             return;
           }
-          else if (calculateCount === 1) {
+          else if (this.currentCalculateCount === 1) {
             // 2つ目に算出された数字ボタンを表示する
             this.circleButtonParams.calculatedNumberSecond.isVisible = true;
-            this.circleButtonParams.calculatedNumberSecond.label = calculatedNumber;
+            this.circleButtonParams.calculatedNumberSecond.label = this.calculatedResultValue;
             window.setTimeout(() => {
               // 算出された数字ボタンを非選択状態の位置に配置
               this.setCalculatedNumberButtonPosition(CIRCLE_BUTTON_TYPE.CALCULATED_NUMBER_SECOND);
@@ -748,15 +759,15 @@ export class MakeTenComponent implements OnInit, OnDestroy {
             }, this.FinishCalculateAfterWaitTime);
             return;
           }
-          else if (calculateCount === 2) {
+          else if (this.currentCalculateCount === 2) {
             // 3つ目に算出された数字ボタン（回答）を表示する
             this.circleButtonParams.calculatedNumberThird.isVisible = true;
-            this.circleButtonParams.calculatedNumberThird.label = calculatedNumber;
+            this.circleButtonParams.calculatedNumberThird.label = this.calculatedResultValue;
 
             // 不正解の場合
-            if (calculatedNumber != '10') {
+            if (this.calculatedResultValue != '10') {
               window.setTimeout(() => {
-                this.initCircleButton(false); // 丸ボタンの初期化処理
+                this.resetExecute(false); // リセット実行
               }, this.AnswerAfterWaitTime);
             }
             return;
