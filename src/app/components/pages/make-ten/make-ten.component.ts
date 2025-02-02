@@ -7,6 +7,7 @@ import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from "../../share/square-b
 import { CIRCLE_BUTTON_COLOR, CircleButtonComponent } from "./unique-components/circle-button/circle-button.component";
 import { DisplaySizeManagementService } from '../../../core/services/display-size-management.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MakeTenQuestion, MakeTenQuestionList } from './make-ten-question-list';
 
 /**
  * 丸ボタンの種類
@@ -116,17 +117,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   };
 
   public questionCounter: number = 1; // 現在の問題数
-
-  /**
-   * 問題リスト(全5問)
-   */
-  private questionList: number[][] = [
-    [1, 2, 3, 4],
-    [11,12, 13, 14],
-    [21, 22, 23, 24],
-    [31, 32, 33, 34],
-    [41, 42, 43, 44],
-  ];
+  private questionList: MakeTenQuestion[] = []; // 問題リスト
 
   private selectedButtonList: CIRCLE_BUTTON_TYPE[] = []; // 選択状態の丸ボタンリスト
   
@@ -180,7 +171,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       }, 0);
     });
 
-    // TODO: 問題を生成する
+    this.questionList = this.createQuestionList(); // 問題リストを生成する
 
     setTimeout(() => {
       this.setCalculateAnimation(); // 演算アニメーションの設定
@@ -280,6 +271,38 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       return;
     }
     this.resetExecute(false); // リセット実行
+  }
+
+  /**
+   * 問題を生成する
+   */
+  private createQuestionList(): MakeTenQuestion[] {
+    // 出題する問題のインデックスをランダム生成
+    const indexList: number[] = [];
+    while (indexList.length < this.MaxQuestionCount) {
+      const index = Math.floor(Math.random() * MakeTenQuestionList.length);
+      // 重複していない場合のみインデックスリストに追加
+      if (!indexList.includes(index)) {
+        indexList.push(index);
+      }
+    }
+
+    const questionList: MakeTenQuestion[] = [];
+    indexList.forEach((index) => {
+      // 問題の数字配列をFisher-Yatesシャッフルアルゴリズムでシャッフルする
+      const questionValues = [...MakeTenQuestionList[index].question];
+      for (let i = questionValues.length - 1; i > 0; i--) {
+        // 0 以上 i 以下のランダムな整数を取得
+        let j = Math.floor(Math.random() * (i + 1));
+        
+        // 要素を交換する
+        [questionValues[i], questionValues[j]] = [questionValues[j], questionValues[i]];
+      }
+
+      questionList.push({ question: questionValues, answer: MakeTenQuestionList[index].answer});
+    });
+
+    return questionList;
   }
 
   /**
@@ -398,10 +421,10 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.circleButtonParams.calculatedNumberThird.isVisible = false;
 
     // 数字ボタンのラベルに問題を設定する
-    this.circleButtonParams.numberFirst.label = this.questionList[this.questionCounter - 1][0].toString();
-    this.circleButtonParams.numberSecond.label = this.questionList[this.questionCounter - 1][1].toString();
-    this.circleButtonParams.numberThird.label = this.questionList[this.questionCounter - 1][2].toString();
-    this.circleButtonParams.numberFourth.label = this.questionList[this.questionCounter - 1][3].toString();
+    this.circleButtonParams.numberFirst.label = this.questionList[this.questionCounter - 1].question[0].toString();
+    this.circleButtonParams.numberSecond.label = this.questionList[this.questionCounter - 1].question[1].toString();
+    this.circleButtonParams.numberThird.label = this.questionList[this.questionCounter - 1].question[2].toString();
+    this.circleButtonParams.numberFourth.label = this.questionList[this.questionCounter - 1].question[3].toString();
 
     // 丸ボタンの表示位置を1つのボタンを選択した位置に設定
     this.setCircleButtonPosition(CIRCLE_BUTTON_TYPE.NUMBER_FIRST, this.positionInCircleButtonArea.selectOne);
