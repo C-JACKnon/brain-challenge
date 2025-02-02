@@ -65,7 +65,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly InitCircleButtonTransitionTime: number = 300; // 丸ボタン初期化時のtransition時間(ms)
   // 丸ボタン初期化時のtransition
   private readonly InitCircleButtonTransition: string = `top ${this.InitCircleButtonTransitionTime}ms, left ${this.InitCircleButtonTransitionTime}ms`;
-  private readonly CircleButtonTransition: string = 'top 100ms, left 100ms'; // 丸ボタン通常時のtransition
+  private readonly CircleButtonTransitionTime: number = 100; // 丸ボタン通常時のtransition時間(ms)
+  // 丸ボタン通常時のtransition
+  private readonly CircleButtonTransition: string = `top ${this.CircleButtonTransitionTime}ms, left ${this.CircleButtonTransitionTime}ms`;
   private readonly StartCalculateAnimationWaitTime: number = 80; // 演算アニメーションの開始待機時間(ms)
   private readonly FinishCalculateAfterWaitTime: number = 100; // 演算終了後の待機時間(ms)
   private readonly AnswerAfterWaitTime: number = 500; // 回答後の待機時間(ms)
@@ -144,12 +146,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   
   public time: number = 0; // 経過時間 (ms)
   private timerId: number = 0; // タイマー停止用のID
-  public isCompleteInitCircleButton: boolean = false; // 丸ボタン初期化完了フラグ
+  public isRunningTimer: boolean = false; // タイマー計測中フラグ
 
   private destroy$: Subject<void> = new Subject(); // Subscribe一括破棄用変数
-
-  // TODO: 動作確認のため追加
-  private isTimerRunning: boolean = false;
 
   /**
    * @constructor
@@ -194,21 +193,6 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    */
   public onClickFlagButton(): void {
     // TODO: ダイアログ表示
-
-    // TODD: 動作確認のため追加
-    this.questionCounter++;
-    if (this.questionCounter > this.MaxQuestionCount) {
-      this.questionCounter = 1;
-    }
-
-    // TODO: 動作確認のため追加
-    if (this.isTimerRunning) {
-      this.stopTImer();
-    }
-    else {
-      this.startTimer();
-    }
-    this.isTimerRunning = !this.isTimerRunning;
   }
 
   /**
@@ -239,7 +223,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
 
         // 正解している場合
         if (this.currentCalculateCount === 2 && this.calculatedResultValue === '10') {
-          // TODO: タイマーストップ処理
+          this.stopTImer(); // タイマーストップ
         }
       }
     }
@@ -270,6 +254,23 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     if (this.currentCalculateCount === 2 && this.calculatedResultValue === '10') {
       return;
     }
+    this.resetExecute(false); // リセット実行
+  }
+
+  /**
+   * 正解アニメーション終了イベント
+   */
+  public onAnimationEndAnswerEffect(): void {
+    this.isStartAnswerEffect = false; // フラグを戻す
+    
+    // 最終問題が終了した場合
+    if (this.questionCounter === this.MaxQuestionCount) {
+      // TODO: 記録をバックエンドに送信
+      // TODO: ランキング画面に遷移する
+      return;
+    }
+
+    this.questionCounter++; // 次の問題を設定する
     this.resetExecute(false); // リセット実行
   }
 
@@ -309,7 +310,12 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    * タイマーをスタートさせる
    */
   private startTimer(): void {
+    // 最大タイムを超えている場合
     if (this.time >= MaxTime) {
+      return;
+    }
+    // 既にタイマーをスタートしている場合
+    else if (this.isRunningTimer) {
       return;
     }
 
@@ -320,13 +326,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
         this.stopTImer();
       }
     }, 1);
-  }
-
-  /**
-   * 正解アニメーション終了イベント
-   */
-  public onAnimationEndAnswerEffect(): void {
-    this.isStartAnswerEffect = false;
+    this.isRunningTimer = true;
   }
 
   /**
@@ -334,6 +334,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    */
   private stopTImer(): void {
     window.clearInterval(this.timerId);
+    this.isRunningTimer = false;
   }
 
   /**
@@ -450,11 +451,19 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.MULTIPLIED_BY);
       this.resetCircleButtonPosition(CIRCLE_BUTTON_TYPE.DIVIDED_BY);
 
-      // ページ遷移時のアニメーション終了後にアニメーション時間を再設定する
+      // Make10画面遷移時の場合
       if (isPageVisible) {
+        // 丸ボタンを初期位置に配置完了後
         setTimeout(() => {
-          this.circleButtonParams.transition = this.CircleButtonTransition;
+          this.circleButtonParams.transition = this.CircleButtonTransition; // 丸ボタンのアニメーション速度を変更（最初だけ遅い）
+          this.startTimer(); // タイマーをスタートする
         }, this.InitCircleButtonTransitionTime);
+      }
+      else {
+        // リセットによる初期位置への配置完了後
+        setTimeout(() => {
+          this.startTimer(); // タイマーをスタートする
+        }, this.CircleButtonTransitionTime)
       }
     }, waitTime);
   }
