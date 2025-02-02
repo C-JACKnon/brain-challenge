@@ -176,7 +176,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     .subscribe(() => {
       setTimeout(() => {
         this.updatePositionInCircleButtonArea(); // 位置の値を更新
-        // TODO: 丸ボタンの位置を更新する
+        this.resetExecute(false); // リセット実行
       }, 0);
     });
 
@@ -185,7 +185,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setCalculateAnimation(); // 演算アニメーションの設定
       this.updatePositionInCircleButtonArea(); // 位置の値を更新
-      this.resetExecute(true); // 丸ボタンの初期化処理
+      this.resetExecute(true); // リセット実行
     }, 0);
   }
 
