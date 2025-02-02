@@ -238,6 +238,15 @@
         [color]="CircleButtonColor.BLUE"
         (onClick)="onClickCircleButton(CircleButtonType.CALCULATED_NUMBER_THIRD)"
       ></circle-button>
+      <circle-button
+        [label]="'10'"
+        class="answer-effect"
+        [ngClass]="{ 'answer-effect-on': isStartAnswerEffect }"
+        [style.top]="circleButtonParams.calculatedNumberThird.top + 'px'"
+        [style.left]="circleButtonParams.calculatedNumberThird.left + 'px'"
+        [color]="CircleButtonColor.BLUE"
+        (animationend)="onAnimationEndAnswerEffect()"
+      ></circle-button>
     </div>
     <square-button
       [label]="'RESET'"

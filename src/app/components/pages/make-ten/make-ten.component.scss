@@ -172,6 +172,31 @@
     width: 62px;
     border-radius: 50%;
   }
+
+  .answer-effect {
+    position: absolute;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .answer-effect-on {
+    animation-name: AnswerEffect;
+    animation-delay: 200ms;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+  }
+
+  @keyframes AnswerEffect {
+    from {
+      transform: scale(100%);
+      opacity: 0.8;
+    }
+    to {
+      transform: scale(400%);
+      opacity: 0;
+    }
+  }
 }
 
 .reset-button {

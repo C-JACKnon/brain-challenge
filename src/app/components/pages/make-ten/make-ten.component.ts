@@ -149,6 +149,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private calculatedResultValue: string | null = null; // 計算結果の値（分母が0となる場合はnull）
   private currentCalculateCount: number = 0; // 現在の演算数
   private calculateAnimationCondition: CALCULATE_ANIMATION_CONDITION = CALCULATE_ANIMATION_CONDITION.FINISH; // 演算アニメーション状態
+  public isStartAnswerEffect: boolean = false; // 正解時のアニメーション実行フラグ
   
   public time: number = 0; // 経過時間 (ms)
   private timerId: number = 0; // タイマー停止用のID
@@ -296,6 +297,13 @@ export class MakeTenComponent implements OnInit, OnDestroy {
         this.stopTImer();
       }
     }, 1);
+  }
+
+  /**
+   * 正解アニメーション終了イベント
+   */
+  public onAnimationEndAnswerEffect(): void {
+    this.isStartAnswerEffect = false;
   }
 
   /**
@@ -764,8 +772,11 @@ export class MakeTenComponent implements OnInit, OnDestroy {
             this.circleButtonParams.calculatedNumberThird.isVisible = true;
             this.circleButtonParams.calculatedNumberThird.label = this.calculatedResultValue;
 
-            // 不正解の場合
-            if (this.calculatedResultValue != '10') {
+            // 正誤判定
+            if (this.calculatedResultValue === '10') {
+              this.isStartAnswerEffect = true; // 正解アニメーション実行
+            }
+            else {
               window.setTimeout(() => {
                 this.resetExecute(false); // リセット実行
               }, this.AnswerAfterWaitTime);
