@@ -166,6 +166,10 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     .subscribe(() => {
       setTimeout(() => {
         this.updatePositionInCircleButtonArea(); // 位置の値を更新
+        // 正解している場合は後続処理を行わない
+        if (this.currentCalculateCount === 2 && this.calculatedResultValue === '10') {
+          return;
+        }
         this.resetExecute(false); // リセット実行
       }, 0);
     });
