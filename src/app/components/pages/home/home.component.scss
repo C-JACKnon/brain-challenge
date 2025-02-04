@@ -83,10 +83,12 @@
 
   $threshold: 752px;
   @media screen and (max-height: $threshold) {
-    margin-bottom: 80px;
+    // margin-bottom: 80px; // TODO: プレリリースではランキング画面をドロップするためコメントアウト
+    margin-bottom: 150px;
   }
   @media screen and (min-height: $threshold) {
-    margin-bottom: 120px;
+    // margin-bottom: 120px; // TODO: プレリリースではランキング画面をドロップするためコメントアウト
+    margin-bottom: 200px;
   }
 }
 

@@ -47,9 +47,10 @@ export class HomeComponent implements AfterViewInit {
    * ライフサイクル: ビュー表示後
    */
   public ngAfterViewInit(): void {
-    // 登録されているプレイヤー名を設定する
-    const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
-    playerNameInputFormElement.value = this.playerNameService.playerName;
+    // TODO: プレリリースではランキング画面をドロップするためコメントアウト
+    // // 登録されているプレイヤー名を設定する
+    // const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
+    // playerNameInputFormElement.value = this.playerNameService.playerName;
   }
 
   /**
