@@ -6,6 +6,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
 import { PlayerNameService } from '../../../core/services/player-name.service';
 import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
+import { ApplicationVersion } from '../../../core/constants';
 
 /**
  * ホーム画面コンポーネント
@@ -24,6 +25,7 @@ import { MakeTenNotificationService } from '../../../core/services/make-ten-noti
 })
 export class HomeComponent implements AfterViewInit {
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
+  public readonly Version = ApplicationVersion;
   
   public isFocusPlayerNameInputForm: boolean = false;
   public giveUpAnswer: string = '';

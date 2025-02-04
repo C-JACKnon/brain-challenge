@@ -123,3 +123,18 @@
 .user-name-focus {
   box-shadow: 0px 0px 10px 0px styles.$neon-blue, inset 0px 0px 10px 0px styles.$neon-blue !important;
 }
+
+.footer-elements {
+  width: 100%;
+  margin: 10px 0px;
+  display: flex;
+  justify-content: flex-end;
+
+  .version {
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    color: styles.$neon-blue;
+    text-shadow: 0px 0px 5px styles.$neon-blue;
+  }
+}
