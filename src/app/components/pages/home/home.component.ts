@@ -5,6 +5,7 @@ import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from '../../share/square-b
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
 import { PlayerNameService } from '../../../core/services/player-name.service';
+import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
 
 /**
  * ホーム画面コンポーネント
@@ -25,16 +26,22 @@ export class HomeComponent implements AfterViewInit {
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
   
   public isFocusPlayerNameInputForm: boolean = false;
+  public giveUpAnswer: string = '';
 
   /**
    * @constructor
    * @param changeComponentService 画面コンポーネント切替サービス
    * @param playerNameService プレイヤー名サービス
+   * @param makeTenNotificationService Make10用の通知サービス
    */
   constructor(
     private changeComponentService: ChangeComponentService,
     private playerNameService: PlayerNameService,
-  ) { }
+    private makeTenNotificationService: MakeTenNotificationService,
+  ) {
+    // 設定されているギブアップの答えを取得する
+    this.giveUpAnswer = this.makeTenNotificationService.getGiveUpAnswer();
+  }
 
   /**
    * ライフサイクル: ビュー表示後

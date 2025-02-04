@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TimeFormatDirective } from '../../../core/directive/time-format.directive';
 import { MaxTime, VisiblePageAnimationTime } from '../../../core/constants';
@@ -8,6 +8,11 @@ import { CIRCLE_BUTTON_COLOR, CircleButtonComponent } from "./unique-components/
 import { DisplaySizeManagementService } from '../../../core/services/display-size-management.service';
 import { Subject, takeUntil } from 'rxjs';
 import { MakeTenQuestion, MakeTenQuestionList } from './make-ten-question-list';
+import { GiveUpDialogComponent } from './unique-components/give-up-dialog/give-up-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangeComponentService } from '../../../core/services/change-component.service';
+import { PAGE_ADDRESS } from '../../../app.routes';
+import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
 
 /**
  * 丸ボタンの種類
@@ -71,6 +76,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly StartCalculateAnimationWaitTime: number = 80; // 演算アニメーションの開始待機時間(ms)
   private readonly FinishCalculateAfterWaitTime: number = 100; // 演算終了後の待機時間(ms)
   private readonly AnswerAfterWaitTime: number = 500; // 回答後の待機時間(ms)
+  private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
 
   /**
    * 丸ボタンエリア内の位置の値
@@ -153,8 +159,14 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   /**
    * @constructor
    * @param displaySizeManagementService 画面サイズ管理サービス
+   * @param changeComponentService 画面コンポーネント切替サービス
+   * @param makeTenNotificationService Make10用の通知サービス
    */
-  constructor(private displaySizeManagementService: DisplaySizeManagementService) { }
+  constructor(
+    private displaySizeManagementService: DisplaySizeManagementService,
+    private changeComponentService: ChangeComponentService,
+    private makeTenNotificationService: MakeTenNotificationService,
+  ) { }
 
   /**
    * ライフサイクル: コンポーネント生成時
@@ -196,7 +208,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    * 白旗ボタンクリックイベント
    */
   public onClickFlagButton(): void {
-    // TODO: ダイアログ表示
+    this.openGiveUpDialog(); // ギブアップダイアログを表示
   }
 
   /**
@@ -1315,4 +1327,26 @@ export class MakeTenComponent implements OnInit, OnDestroy {
 
 		return `${childNumber / greatestCommonDivisor}/${calculatedMotherNumber}`;
 	}
+
+  /**
+   * ギブアップダイアログを表示する
+   */
+  private openGiveUpDialog(): void {
+    // ダイアログを表示する
+    const dialogRef = this.dialog.open(GiveUpDialogComponent, {
+      disableClose: true // ダイアログ外を押下しても閉じないように設定
+    });
+
+    // ダイアログを閉じた際のイベント
+    dialogRef.afterClosed().subscribe((isGiveUp: boolean) => {
+      if (isGiveUp) {
+        // ホーム画面に表示する答えを設定する
+        const answer = this.questionList[this.questionCounter - 1].answer;
+        this.makeTenNotificationService.setGiveUpAnswer(answer);
+
+        // ホーム画面に遷移する
+        this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
+      }
+    });
+  }
 }

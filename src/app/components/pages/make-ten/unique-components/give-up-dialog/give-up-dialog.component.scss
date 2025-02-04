@@ -1,0 +1,56 @@
+@use "../../../../../../styles.scss";
+
+::ng-deep .mat-mdc-dialog-surface {
+  border-radius: 18px !important;
+}
+
+.dialog-outline {
+  background-color: #16262B;
+  border: 3px solid styles.$neon-white;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .dialog-header {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    .close-button {
+      margin-right: 10px;
+      margin-top: 10px;
+
+      .icon-button {
+        height: 40px;
+        width: 40px;
+        fill: styles.$neon-white;
+        filter: drop-shadow(0px 0px 2px #ccf1f946);
+        transition: 0.2s;
+        cursor: pointer;
+      }
+
+      .icon-button:hover {
+        filter: drop-shadow(0px 0px 6px #ccf1f977);
+      }
+      
+      .icon-button:active {
+        filter: drop-shadow(0px 0px 6px styles.$neon-white);
+      }
+    }
+  }
+
+  .dialog-inline {
+    margin: 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dialog-footer {
+    height: 50px;
+  }
+}

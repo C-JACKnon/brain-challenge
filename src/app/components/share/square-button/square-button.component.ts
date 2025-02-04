@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export enum SQUARE_BUTTON_COLOR {
   BLUE,
   WHITE,
+  RED,
 }
 
 /**
@@ -22,6 +23,7 @@ export enum SQUARE_BUTTON_COLOR {
 })
 export class SquareButtonComponent {
   @Input() label: string = '';
+  @Input() isLarge: boolean = false;
   @Input() color: SQUARE_BUTTON_COLOR = SQUARE_BUTTON_COLOR.BLUE;
   @Output() onClick: EventEmitter<void> = new EventEmitter<void>();
   

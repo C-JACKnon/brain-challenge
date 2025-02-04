@@ -4,6 +4,9 @@
   [ngClass]="{
     'blue-outline': color === ColorType.BLUE,
     'white-outline': color === ColorType.WHITE,
+    'red-outline': color === ColorType.RED,
+    'large-width': isLarge,
+    'fit-width': !isLarge,
   }"
 >
   <div
@@ -11,6 +14,7 @@
     [ngClass]="{
       'blue-text': color === ColorType.BLUE,
       'white-text': color === ColorType.WHITE,
+      'red-text': color === ColorType.RED,
     }"
   >
     {{ label }}

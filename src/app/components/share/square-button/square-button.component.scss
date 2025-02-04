@@ -2,13 +2,20 @@
 
 .button-outline {
   height: 59px; // アウトライン分(6px)引いた値を設定
-  width: 240px; // アウトライン分(6px)引いた値を設定
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   transition: 0.2s;
+}
+
+.large-width {
+  width: 240px; // アウトライン分(6px)引いた値を設定
+}
+
+.fit-width {
+  padding: 0px 30px;
 }
 
 .button-outline:hover {
@@ -41,6 +48,19 @@
   background-color: #ccf1f99b;
 }
 
+.red-outline {
+  border: solid styles.$neon-red;
+  box-shadow: 0px 0px 3px 0px styles.$neon-red, inset 0px 0px 3px 0px styles.$neon-red;
+}
+
+.red-outline:hover {
+  box-shadow: 0px 0px 10px 0px styles.$neon-red, inset 0px 0px 10px 0px styles.$neon-red;
+}
+
+.red-outline:active {
+  background-color: #d800659e;
+}
+
 .button-text {
   font-size: 24px;
 }
@@ -53,4 +73,9 @@
 .white-text {
   color: styles.$neon-white;
   text-shadow: 0px 0px 5px styles.$neon-white;
+}
+
+.red-text {
+  color: styles.$neon-red;
+  text-shadow: 0px 0px 5px styles.$neon-red;
 }
