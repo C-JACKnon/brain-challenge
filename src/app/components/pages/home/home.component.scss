@@ -64,7 +64,7 @@
     text-shadow: 0px 0px 5px styles.$neon-blue;
   }
 
-  .answer-text {
+  .subtitle-text {
     margin-top: 30px;
     height: 24px;
     line-height: 24px;
@@ -72,6 +72,11 @@
     font-size: 24px;
     color: styles.$neon-blue;
     text-shadow: 0px 0px 5px styles.$neon-blue;
+  }
+
+  .score-time {
+    display: flex;
+    gap: 10px;
   }
 }
 

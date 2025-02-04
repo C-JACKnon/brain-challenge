@@ -14,7 +14,11 @@
       <div class="title-text">
         Make 10
       </div>
-      <div *ngIf="giveUpAnswer != ''" class="answer-text">A. {{giveUpAnswer}}</div>
+      <div *ngIf="giveUpAnswer != ''" class="subtitle-text">A. {{giveUpAnswer}}</div>
+      <div *ngIf="scoreTime > 0" class="subtitle-text score-time">
+        TIME:
+        <div appTimeFormat [time]="scoreTime"></div>
+      </div>
     </div>
     <div class="actions">
       <!-- TODO: プレリリースではランキング画面をドロップするためコメントアウト -->

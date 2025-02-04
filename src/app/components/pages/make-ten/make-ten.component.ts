@@ -283,6 +283,16 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     if (this.questionCounter === this.MaxQuestionCount) {
       // TODO: 記録をバックエンドに送信
       // TODO: ランキング画面に遷移する
+
+      // TODO: プレリリースではランキング画面をドロップするためホーム画面に遷移する
+      // ギブアップ時にホーム画面に表示する答えを空文字にしておく（非表示にする）
+      this.makeTenNotificationService.setGiveUpAnswer('');
+
+      // ホーム画面に表示するタイムを設定する
+      this.makeTenNotificationService.setScoreTime(this.time);
+
+      // ホーム画面に遷移する
+      this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
       return;
     }
 
@@ -1340,6 +1350,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     // ダイアログを閉じた際のイベント
     dialogRef.afterClosed().subscribe((isGiveUp: boolean) => {
       if (isGiveUp) {
+        // 全問正解時に表示するタイムを0に設定しておく（非表示にする）
+        this.makeTenNotificationService.setScoreTime(0);
+
         // ホーム画面に表示する答えを設定する
         const answer = this.questionList[this.questionCounter - 1].answer;
         this.makeTenNotificationService.setGiveUpAnswer(answer);
