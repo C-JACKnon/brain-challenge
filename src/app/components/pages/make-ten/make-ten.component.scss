@@ -1,0 +1,212 @@
+@use "../../../../styles.scss";
+
+.display-component {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .make-ten-elements {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 20px;
+  }
+}
+
+.header {
+  height: 58px;
+  width: 100%;
+  margin-top: 40px;
+
+  .header-elements {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 10px;
+
+    .header-text {
+      color: styles.$neon-blue;
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 0px 0px 5px styles.$neon-blue;
+    }
+
+    .icon-button {
+      height: 40px;
+      width: 40px;
+      fill: styles.$neon-white;
+      filter: drop-shadow(0px 0px 2px #ccf1f946);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .icon-button:hover {
+      filter: drop-shadow(0px 0px 6px #ccf1f977);
+    }
+    
+    .icon-button:active {
+      filter: drop-shadow(0px 0px 6px styles.$neon-white);
+    }
+  }
+
+  .header-bottom-border {
+    border-bottom: 1px solid styles.$neon-blue;
+    box-shadow: 0px 0px 3px 0px styles.$neon-blue, inset 0px 0px 3px 0px styles.$neon-blue;
+  }
+}
+
+.make-ten-info-area {
+  width: 100%;
+
+  .make-ten-info-elements {
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    .question-count-mark {
+      position: relative;
+      height: 40px;
+      width: 40px;
+      filter: drop-shadow(0px 0px 2px #ccf1f946);
+
+      .pentagon-mark-line {
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        transition: 1s;
+      }
+
+      .highlights {
+        background-color: #00C139 !important;
+        filter: drop-shadow(0px 0px 2px #00C139);
+      }
+      
+      .one {
+        background-color: styles.$neon-white;
+        clip-path: polygon(
+          50% 6%,
+          56% 0%,
+          99% 36%,
+          95% 42%
+        );
+      }
+      .two {
+        background-color: styles.$neon-white;
+        clip-path: polygon(
+          93% 40%,
+          100% 44%,
+          84% 94%,
+          76% 92%
+        );
+      }
+      .three {
+        background-color: styles.$neon-white;
+        clip-path: polygon(
+          25% 92%,
+          76% 92%,
+          76% 100%,
+          25% 100%
+        );
+      }
+      .four {
+        background-color: styles.$neon-white;
+        clip-path: polygon(
+          0% 44%,
+          8% 40%,
+          25% 92%,
+          17% 94%
+        );
+      }
+      .five {
+        background-color: styles.$neon-white;
+        clip-path: polygon(
+          45% 0%,
+          50% 6%,
+          6% 42%,
+          1% 36%
+        );
+      }
+
+      .question-counter {
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        filter: drop-shadow(0px 0px 2px #ccf1f946);
+        color: styles.$neon-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .timer {
+      color: styles.$neon-white;
+    }
+  }
+}
+
+#circle-button-area {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  .circle-button {
+    position: absolute;
+    z-index: 2;
+  }
+
+  .clear-circle-button {
+    position: absolute;
+    z-index: 1;
+    height: 62px;
+    width: 62px;
+    border-radius: 50%;
+  }
+
+  .answer-effect {
+    position: absolute;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .answer-effect-on {
+    animation-name: AnswerEffect;
+    animation-delay: 200ms;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+  }
+
+  @keyframes AnswerEffect {
+    from {
+      transform: scale(100%);
+      opacity: 0.8;
+    }
+    to {
+      transform: scale(400%);
+      opacity: 0;
+    }
+  }
+}
+
+.reset-button {
+  margin-top: 60px;
+
+  $threshold: 752px;
+  @media screen and (max-height: $threshold) {
+    margin-bottom: 80px;
+  }
+  @media screen and (min-height: $threshold) {
+    margin-bottom: 180px;
+  }
+}

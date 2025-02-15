@@ -1,17 +1,28 @@
 <div class="display-component">
   <div class="home-elements">
     <div class="header-elements">
-      <svg-icon
+      <!-- TODO: プレリリースでは遊び方画面をドロップするためコメントアウト -->
+      <!-- <svg-icon
         src="assets/help.svg"
         [applyClass]="true"
         [class]="'icon-button how-to-play-button'"
         (click)="onClickHowToPlayButton()"
       >
-      </svg-icon>
+      </svg-icon> -->
     </div>
-    <div class="title">Make 10</div>
+    <div class="title">
+      <div class="title-text">
+        Make 10
+      </div>
+      <div *ngIf="giveUpAnswer != ''" class="subtitle-text">A. {{giveUpAnswer}}</div>
+      <div *ngIf="scoreTime > 0" class="subtitle-text score-time">
+        TIME:
+        <div appTimeFormat [time]="scoreTime"></div>
+      </div>
+    </div>
     <div class="actions">
-      <div>
+      <!-- TODO: プレリリースではランキング画面をドロップするためコメントアウト -->
+      <!-- <div>
         <input
           type="text"
           id="user-name"
@@ -27,15 +38,23 @@
             'user-name-focus': isFocusPlayerNameInputForm
           }"
         ></div>
-      </div>
+      </div> -->
       <square-button
         [label]="'START'"
+        [isLarge]="true"
+        [color]="SquareButtonColor.BLUE"
         (onClick)="onClickStartButton()"
       />
-      <square-button
+      <!-- TODO: プレリリースではランキング画面をドロップするためコメントアウト -->
+      <!-- <square-button
         [label]="'RANKING'"
+        [isLarge]="true"
+        [color]="SquareButtonColor.BLUE"
         (onClick)="onClickRankingButton()"
-      />
+      /> -->
+    </div>
+    <div class="footer-elements">
+      <div class="version">V{{Version}}</div>
     </div>
   </div>
 </div>

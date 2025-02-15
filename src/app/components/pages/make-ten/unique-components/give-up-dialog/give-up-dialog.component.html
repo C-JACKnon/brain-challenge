@@ -1,0 +1,23 @@
+<div class="dialog-outline">
+  <div class="dialog-header">
+    <div class="close-button">
+      <svg-icon
+        src="assets/close.svg"
+        [applyClass]="true"
+        [class]="'icon-button'"
+        (click)="onClickCloseButton()"
+      >
+      </svg-icon>
+    </div>
+  </div>
+  <div class="dialog-inline">
+    <square-button
+      [label]="'GIVE UP'"
+      [isLarge]="false"
+      [color]="SquareButtonColor.RED"
+      (onClick)="onClickGiveUpButton()"
+    >
+    </square-button>
+  </div>
+  <div class="dialog-footer"></div>
+</div>

@@ -3,18 +3,20 @@
   (click)="onClickButton()"
   [ngClass]="{
     'blue-outline': color === ColorType.BLUE,
-    'white-outline': color === ColorType.WHITE,
+    'green-outline': color === ColorType.GREEN,
+    'yellow-outline': color === ColorType.YELLOW,
     'red-outline': color === ColorType.RED,
-    'large-width': isLarge,
-    'fit-width': !isLarge,
+    'purple-outline': color === ColorType.PURPLE,
   }"
 >
   <div
     class="button-text"
     [ngClass]="{
       'blue-text': color === ColorType.BLUE,
-      'white-text': color === ColorType.WHITE,
+      'green-text': color === ColorType.GREEN,
+      'yellow-text': color === ColorType.YELLOW,
       'red-text': color === ColorType.RED,
+      'purple-text': color === ColorType.PURPLE,
     }"
   >
     {{ label }}
