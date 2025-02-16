@@ -4,6 +4,7 @@ import { ChangeComponentService } from './core/services/change-component.service
 import { fadeInAnimation } from './app.animation';
 import { PAGE_ADDRESS } from './app.routes';
 import { DisplaySizeManagementService } from './core/services/display-size-management.service';
+import { environment } from '../environments/environment';
 
 /**
  * アプリケーション画面コンポーネント
@@ -36,6 +37,9 @@ export class AppComponent implements OnInit {
    * 初期処理
    */
   public ngOnInit(): void {
+    // 環境変数の確認
+    console.info(environment.env);
+
     // アプリケーション起動時最初にホーム画面コンポーネントに遷移する
     this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
 
