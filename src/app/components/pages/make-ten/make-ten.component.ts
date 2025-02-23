@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { TimeFormatDirective } from '../../../core/directive/time-format.directive';
 import { MaxTime, VisiblePageAnimationTime } from '../../../core/constants';
 import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from "../../share/square-button/square-button.component";
 import { CIRCLE_BUTTON_COLOR, CircleButtonComponent } from "./unique-components/circle-button/circle-button.component";
@@ -13,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
 import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
+import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
 
 /**
  * 丸ボタンの種類
@@ -50,9 +50,9 @@ export enum CALCULATE_ANIMATION_CONDITION {
   imports: [
     CommonModule,
     AngularSvgIconModule,
-    TimeFormatDirective,
     SquareButtonComponent,
-    CircleButtonComponent
+    CircleButtonComponent,
+    ScoreTimePipe
   ],
   templateUrl: './make-ten.component.html',
   styleUrl: './make-ten.component.scss'

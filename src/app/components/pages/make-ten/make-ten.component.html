@@ -22,7 +22,7 @@
           <div class="pentagon-mark-line five" [ngClass]="{ 'highlights': questionCounter >= 5 }"></div>
           <div class="question-counter">{{questionCounter}}</div>
         </div>
-        <div appTimeFormat class="timer" [time]="time"></div>
+        <div class="timer">{{ time | scoreTime }}</div>
       </div>
     </div>
     <div id="circle-button-area">

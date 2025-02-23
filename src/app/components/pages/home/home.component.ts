@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { PlayerNameService } from '../../../core/services/player-name.service';
 import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
 import { ApplicationVersion } from '../../../core/constants';
-import { TimeFormatDirective } from '../../../core/directive/time-format.directive';
 
 /**
  * ホーム画面コンポーネント
@@ -19,7 +18,6 @@ import { TimeFormatDirective } from '../../../core/directive/time-format.directi
   imports: [
     CommonModule,
     SquareButtonComponent,
-    TimeFormatDirective,
     AngularSvgIconModule,
   ],
   templateUrl: './home.component.html',
@@ -31,7 +29,6 @@ export class HomeComponent implements AfterViewInit {
   
   public isFocusPlayerNameInputForm: boolean = false;
   public giveUpAnswer: string = ''; // ギブアップ時に表示する答え（空文字の場合は非表示）
-  public scoreTime: number = 0; // 全問正解時に表示するスコアタイム（0の場合は非表示）
 
   /**
    * @constructor
@@ -46,9 +43,6 @@ export class HomeComponent implements AfterViewInit {
   ) {
     // 設定されているギブアップの答えを取得する
     this.giveUpAnswer = this.makeTenNotificationService.getGiveUpAnswer();
-
-    // 設定されている全問正解時のスコアタイムを取得する
-    this.scoreTime = this.makeTenNotificationService.getScoreTime();
   }
 
   /**
