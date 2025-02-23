@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
 import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from '../../share/square-button/square-button.component';
@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { PlayerNameService } from '../../../core/services/player-name.service';
 import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
 import { ApplicationVersion } from '../../../core/constants';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar.component';
 
 /**
  * ホーム画面コンポーネント
@@ -26,6 +28,7 @@ import { ApplicationVersion } from '../../../core/constants';
 export class HomeComponent implements AfterViewInit {
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
   public readonly Version = ApplicationVersion;
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
   
   public isFocusPlayerNameInputForm: boolean = false;
   public giveUpAnswer: string = ''; // ギブアップ時に表示する答え（空文字の場合は非表示）
@@ -59,6 +62,7 @@ export class HomeComponent implements AfterViewInit {
    * @param isFocus フォーカスされたか否か
    */
   public onFocusPlayerNameInputForm(isFocus: boolean): void {
+    this.snackBar.dismiss(); // スナックバーを閉じる    
     this.isFocusPlayerNameInputForm = isFocus;
 
     // 入力欄からフォーカスが外れた場合
@@ -73,7 +77,22 @@ export class HomeComponent implements AfterViewInit {
    * STARTボタンクリックイベント
    */
   public onClickStartButton(): void {
-    this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
+    // プレイヤー名が未設定の場合、未設定メッセージを表示する
+    if (this.playerNameService.playerName.length === 0) {
+      const snackBarData: SnackBarData = new SnackBarData(
+        'Please enter a Player Name.'
+      );
+      const snackBarConfig: MatSnackBarConfig = {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        data: snackBarData,
+      };
+      this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
+    }
+    else {
+      this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
+    }
   }
 
   /**

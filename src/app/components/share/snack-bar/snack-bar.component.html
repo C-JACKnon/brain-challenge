@@ -1,0 +1,12 @@
+<div class="snack-bar-area">
+  <div matSnackBarLabel class="message">{{message}}</div>
+  <div *ngIf="buttonText.length > 0" matSnackBarActions>
+    <button
+      mat-button
+      class="button-text"
+      (click)="onClickButton()"
+    >
+      {{buttonText}}
+    </button>
+  </div>
+</div>

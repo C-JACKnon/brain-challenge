@@ -1,0 +1,24 @@
+@use "../../../../styles.scss";
+
+::ng-deep {
+  .mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+    background-color: #0c0707;
+    border: solid styles.$neon-red;
+    box-shadow: 0px 0px 3px 0px styles.$neon-red, inset 0px 0px 3px 0px styles.$neon-red;
+    border-radius: 10px;
+  }
+}
+
+.snack-bar-area {
+  display: flex;
+
+  .message {
+    color: styles.$neon-red;
+    text-shadow: 0px 0px 5px styles.$neon-red;
+  }
+
+  .button-text {
+    color: styles.$neon-red;
+    text-shadow: 0px 0px 5px styles.$neon-red;
+  }
+}
