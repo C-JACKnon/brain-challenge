@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { ChangeComponentService } from './core/services/change-component.service';
 import { fadeInAnimation } from './app.animation';
@@ -21,20 +21,12 @@ import { environment } from '../environments/environment';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  /**
-   * @constructor
-   * @param contexts Angularのルーティング要素参照用クラス
-   * @param changeComponentService 画面サイズ切替サービス
-   * @param displaySizeManagementService 画面サイズ管理サービス
-   */
-  constructor(
-    private contexts: ChildrenOutletContexts,
-    private changeComponentService: ChangeComponentService,
-    public displaySizeManagementService: DisplaySizeManagementService,
-  ) {}
+  private readonly changeComponentService = inject(ChangeComponentService); // 画面サイズ切替サービス
+  public readonly displaySizeManagementService = inject(DisplaySizeManagementService); // 画面サイズ管理サービス
+  private readonly contexts = inject(ChildrenOutletContexts); // Angularのルーティング要素参照用クラス
 
   /**
-   * 初期処理
+   * ライフサイクル: 初期処理
    */
   public ngOnInit(): void {
     // 環境変数の確認

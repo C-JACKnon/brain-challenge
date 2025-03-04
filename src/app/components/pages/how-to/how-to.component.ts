@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
 
@@ -14,13 +14,7 @@ import { PAGE_ADDRESS } from '../../../app.routes';
   styleUrl: './how-to.component.scss'
 })
 export class HowToComponent {
-  /**
-   * @constructor
-   * @param changeComponentService 画面コンポーネント切替サービス
-   */
-  constructor(
-    private changeComponentService: ChangeComponentService,
-  ) { }
+  private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
 
   /**
    * 戻るボタン押下イベント

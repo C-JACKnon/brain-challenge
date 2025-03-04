@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
 import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from '../../share/square-button/square-button.component';
@@ -24,7 +24,8 @@ import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+  private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
   private readonly storageService = inject(StorageService); // ストレージサービス
 
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
@@ -34,18 +35,15 @@ export class HomeComponent implements AfterViewInit {
   public isFocusPlayerNameInputForm: boolean = false;
   public giveUpAnswer: string = ''; // ギブアップ時に表示する答え（空文字の場合は非表示）
 
+  // region LifeCycle Method
+
   /**
-   * @constructor
-   * @param changeComponentService 画面コンポーネント切替サービス
+   * ライフサイクル: 初期処理
    */
-  constructor(
-    private changeComponentService: ChangeComponentService,
-  ) {
+  public ngOnInit(): void {
     // 設定されているギブアップの答えを取得する
     this.giveUpAnswer = this.storageService.getGiveUpAnswer();
   }
-
-  // region LifeCycle Method
 
   /**
    * ライフサイクル: ビュー表示後

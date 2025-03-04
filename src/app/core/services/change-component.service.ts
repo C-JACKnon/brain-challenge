@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PAGE_ADDRESS } from '../../app.routes';
 
@@ -10,14 +10,7 @@ import { PAGE_ADDRESS } from '../../app.routes';
   providedIn: 'root'
 })
 export class ChangeComponentService {
-
-  /**
-   * @constructor
-   * @param router Angularのルータクラス
-   */
-  constructor(
-    private router: Router
-  ) {}
+  private readonly router = inject(Router); // Angularのルータクラス
 
   /**
    * 表示する画面の変更

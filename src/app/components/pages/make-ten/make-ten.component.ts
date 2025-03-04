@@ -58,6 +58,8 @@ export enum CALCULATE_ANIMATION_CONDITION {
   styleUrl: './make-ten.component.scss'
 })
 export class MakeTenComponent implements OnInit, OnDestroy {
+  private readonly displaySizeManagementService = inject(DisplaySizeManagementService); // 画面サイズ管理サービス
+  private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
   private readonly storageService = inject(StorageService); // ストレージサービス
   
   public readonly CircleButtonType = CIRCLE_BUTTON_TYPE;
@@ -157,16 +159,6 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   public isRunningTimer: boolean = false; // タイマー計測中フラグ
 
   private destroy$: Subject<void> = new Subject(); // Subscribe一括破棄用変数
-
-  /**
-   * @constructor
-   * @param displaySizeManagementService 画面サイズ管理サービス
-   * @param changeComponentService 画面コンポーネント切替サービス
-   */
-  constructor(
-    private displaySizeManagementService: DisplaySizeManagementService,
-    private changeComponentService: ChangeComponentService,
-  ) { }
 
   // region LifeCycle Method
 
