@@ -11,8 +11,8 @@ import { GiveUpDialogComponent } from './unique-components/give-up-dialog/give-u
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
-import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
 import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
+import { StorageService } from '../../../core/services/storage.service';
 
 /**
  * 丸ボタンの種類
@@ -58,6 +58,8 @@ export enum CALCULATE_ANIMATION_CONDITION {
   styleUrl: './make-ten.component.scss'
 })
 export class MakeTenComponent implements OnInit, OnDestroy {
+  private readonly storageService = inject(StorageService); // ストレージサービス
+  
   public readonly CircleButtonType = CIRCLE_BUTTON_TYPE;
   public readonly CircleButtonColor = CIRCLE_BUTTON_COLOR;
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
@@ -160,12 +162,10 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    * @constructor
    * @param displaySizeManagementService 画面サイズ管理サービス
    * @param changeComponentService 画面コンポーネント切替サービス
-   * @param makeTenNotificationService Make10用の通知サービス
    */
   constructor(
     private displaySizeManagementService: DisplaySizeManagementService,
     private changeComponentService: ChangeComponentService,
-    private makeTenNotificationService: MakeTenNotificationService,
   ) { }
 
   /**
@@ -284,15 +284,14 @@ export class MakeTenComponent implements OnInit, OnDestroy {
       // TODO: 記録をバックエンドに送信
       // TODO: ランキング画面に遷移する
 
-      // TODO: プレリリースではランキング画面をドロップするためホーム画面に遷移する
-      // ギブアップ時にホーム画面に表示する答えを空文字にしておく（非表示にする）
-      this.makeTenNotificationService.setGiveUpAnswer('');
-
-      // ホーム画面に表示するタイムを設定する
-      this.makeTenNotificationService.setScoreTime(this.time);
+      // タイムを設定する
+      this.storageService.setScore(this.time);
 
       // ホーム画面に遷移する
       this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
+
+      // TODO: リザルトダイアログを表示する
+
       return;
     }
 
@@ -1350,12 +1349,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     // ダイアログを閉じた際のイベント
     dialogRef.afterClosed().subscribe((isGiveUp: boolean) => {
       if (isGiveUp) {
-        // 全問正解時に表示するタイムを0に設定しておく（非表示にする）
-        this.makeTenNotificationService.setScoreTime(0);
-
         // ホーム画面に表示する答えを設定する
         const answer = this.questionList[this.questionCounter - 1].answer;
-        this.makeTenNotificationService.setGiveUpAnswer(answer);
+        this.storageService.setGiveUpAnswer(answer);
 
         // ホーム画面に遷移する
         this.changeComponentService.changePage(PAGE_ADDRESS.HOME);

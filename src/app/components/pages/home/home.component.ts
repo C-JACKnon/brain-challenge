@@ -4,8 +4,7 @@ import { PAGE_ADDRESS } from '../../../app.routes';
 import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from '../../share/square-button/square-button.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
-import { PlayerNameService } from '../../../core/services/player-name.service';
-import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
+import { StorageService } from '../../../core/services/storage.service';
 import { ApplicationVersion } from '../../../core/constants';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar.component';
@@ -26,6 +25,8 @@ import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements AfterViewInit {
+  private readonly storageService = inject(StorageService); // ストレージサービス
+
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
   public readonly Version = ApplicationVersion;
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
@@ -36,16 +37,12 @@ export class HomeComponent implements AfterViewInit {
   /**
    * @constructor
    * @param changeComponentService 画面コンポーネント切替サービス
-   * @param playerNameService プレイヤー名サービス
-   * @param makeTenNotificationService Make10用の通知サービス
    */
   constructor(
     private changeComponentService: ChangeComponentService,
-    private playerNameService: PlayerNameService,
-    private makeTenNotificationService: MakeTenNotificationService,
   ) {
     // 設定されているギブアップの答えを取得する
-    this.giveUpAnswer = this.makeTenNotificationService.getGiveUpAnswer();
+    this.giveUpAnswer = this.storageService.getGiveUpAnswer();
   }
 
   /**
@@ -54,7 +51,7 @@ export class HomeComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     // 登録されているプレイヤー名を設定する
     const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
-    playerNameInputFormElement.value = this.playerNameService.playerName;
+    playerNameInputFormElement.value = this.storageService.playerName;
   }
 
   /**
@@ -69,7 +66,7 @@ export class HomeComponent implements AfterViewInit {
     if (!isFocus) {
       // 入力されたプレイヤー名の整形を行う
       const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
-      playerNameInputFormElement.value = this.playerNameService.registerPlayerName(playerNameInputFormElement.value);
+      playerNameInputFormElement.value = this.storageService.registerPlayerName(playerNameInputFormElement.value);
     }
   }
 
@@ -78,7 +75,7 @@ export class HomeComponent implements AfterViewInit {
    */
   public onClickStartButton(): void {
     // プレイヤー名が未設定の場合、未設定メッセージを表示する
-    if (this.playerNameService.playerName.length === 0) {
+    if (this.storageService.playerName.length === 0) {
       const snackBarData: SnackBarData = new SnackBarData(
         'Please enter a Player Name.'
       );
