@@ -45,6 +45,8 @@ export class HomeComponent implements AfterViewInit {
     this.giveUpAnswer = this.storageService.getGiveUpAnswer();
   }
 
+  // region LifeCycle Method
+
   /**
    * ライフサイクル: ビュー表示後
    */
@@ -53,6 +55,8 @@ export class HomeComponent implements AfterViewInit {
     const playerNameInputFormElement = document.getElementById('user-name') as HTMLInputElement;
     playerNameInputFormElement.value = this.storageService.playerName;
   }
+
+  // region Public Method
 
   /**
    * プレイヤー名入力欄へのフォーカスイベント

@@ -168,6 +168,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     private changeComponentService: ChangeComponentService,
   ) { }
 
+  // region LifeCycle Method
+
   /**
    * ライフサイクル: コンポーネント生成時
    */
@@ -203,6 +205,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  // region Public Method
 
   /**
    * 白旗ボタンクリックイベント
@@ -298,6 +302,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.questionCounter++; // 次の問題を設定する
     this.resetExecute(false); // リセット実行
   }
+
+  // region Private Method
 
   /**
    * 問題を生成する
