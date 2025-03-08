@@ -6,9 +6,18 @@
     'white-outline': color === ColorType.WHITE,
     'red-outline': color === ColorType.RED,
     'large-width': isLarge,
-    'fit-width': !isLarge,
+    'fit-width': !isLarge && icon.length === 0,
+    'fit-icon-width': !isLarge && icon.length > 0,
   }"
 >
+  <ng-container *ngIf="icon.length > 0">
+    <svg-icon
+      [src]="icon"
+      [applyClass]="true"
+      [class]="iconClass"
+    >
+    </svg-icon>
+  </ng-container>
   <div
     class="button-text"
     [ngClass]="{

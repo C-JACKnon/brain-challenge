@@ -13,6 +13,7 @@ import { ChangeComponentService } from '../../../core/services/change-component.
 import { PAGE_ADDRESS } from '../../../app.routes';
 import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
 import { StorageService } from '../../../core/services/storage.service';
+import { ResultDialogComponent, ResultDialogData } from './unique-components/result-dialog/result-dialog.component';
 
 /**
  * 丸ボタンの種類
@@ -61,6 +62,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly displaySizeManagementService = inject(DisplaySizeManagementService); // 画面サイズ管理サービス
   private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
   private readonly storageService = inject(StorageService); // ストレージサービス
+  private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
   
   public readonly CircleButtonType = CIRCLE_BUTTON_TYPE;
   public readonly CircleButtonColor = CIRCLE_BUTTON_COLOR;
@@ -80,7 +82,6 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly StartCalculateAnimationWaitTime: number = 80; // 演算アニメーションの開始待機時間(ms)
   private readonly FinishCalculateAfterWaitTime: number = 100; // 演算終了後の待機時間(ms)
   private readonly AnswerAfterWaitTime: number = 500; // 回答後の待機時間(ms)
-  private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
 
   /**
    * 丸ボタンエリア内の位置の値
@@ -278,16 +279,12 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     // 最終問題が終了した場合
     if (this.questionCounter === this.MaxQuestionCount) {
       // TODO: 記録をバックエンドに送信
-      // TODO: ランキング画面に遷移する
 
-      // タイムを設定する
+      // タイムをストレージに記録する
       this.storageService.setScore(this.time);
 
-      // ホーム画面に遷移する
-      this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
-
-      // TODO: リザルトダイアログを表示する
-
+      // リザルトダイアログを表示する
+      this.openResultDialog();
       return;
     }
 
@@ -334,7 +331,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    */
   private startTimer(): void {
     // 最大タイムを超えている場合
-    if (this.time >= MaxTime) {
+    if (this.time > MaxTime) {
       return;
     }
     // 既にタイマーをスタートしている場合
@@ -345,7 +342,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     const startTime: number = Date.now() - this.time;
     this.timerId = window.setInterval(() => {
       this.time = Date.now() - startTime;
-      if (this.time >= MaxTime) {
+      if (this.time > MaxTime) {
         this.stopTImer();
       }
     }, 1);
@@ -1352,6 +1349,32 @@ export class MakeTenComponent implements OnInit, OnDestroy {
         this.storageService.setGiveUpAnswer(answer);
 
         // ホーム画面に遷移する
+        this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
+      }
+    });
+  }
+
+  /**
+   * リザルトダイアログを表示する
+   */
+  private openResultDialog(): void {
+    const data: ResultDialogData = {
+      score: this.time
+    };
+    // ダイアログを表示する
+    const dialogRef = this.dialog.open(ResultDialogComponent, {
+      data: data,
+      disableClose: true // ダイアログ外を押下しても閉じないように設定
+    });
+
+    // ダイアログを閉じた際のイベント
+    dialogRef.afterClosed().subscribe((isRetry: boolean) => {
+      if (isRetry) {
+        // trueの場合、Make10をリトライする
+        this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
+      }
+      else {
+        // falseの場合、ホーム画面に遷移する
         this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
       }
     });

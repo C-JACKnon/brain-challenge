@@ -18,6 +18,11 @@
   padding: 0px 30px;
 }
 
+.fit-icon-width {
+  padding: 0px 20px;
+  column-gap: 10px
+}
+
 .button-outline:hover {
   background-color: #23daff0f;
 }
@@ -78,4 +83,25 @@
 .red-text {
   color: styles.$neon-red;
   text-shadow: 0px 0px 5px styles.$neon-red;
+}
+
+.blue-icon {
+  height: 40px;
+  width: 40px;
+  fill: styles.$neon-blue;
+  filter: drop-shadow(0px 0px 2px #ccf1f946);
+}
+
+.white-icon {
+  height: 40px;
+  width: 40px;
+  fill: styles.$neon-white;
+  filter: drop-shadow(0px 0px 2px #ccf1f946);
+}
+
+.red-icon {
+  height: 40px;
+  width: 40px;
+  fill: styles.$neon-red;
+  filter: drop-shadow(0px 0px 2px #ccf1f946);
 }
