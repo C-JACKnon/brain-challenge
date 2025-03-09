@@ -44,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((nextPageAddress: PAGE_ADDRESS) => {
       this.currentPageAddress = nextPageAddress;
-      console.log(this.currentPageAddress)
     });
 
     // アプリケーションサイズを更新する
