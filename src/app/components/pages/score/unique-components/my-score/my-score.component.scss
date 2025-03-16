@@ -1,0 +1,86 @@
+@use "../../../../../../styles.scss";
+
+.my-score-area {
+  padding: 0 10px;
+}
+
+.best-score-area {
+  display: flex;
+  margin: 30px 0;
+  justify-content: space-between;
+  align-items: center;
+
+  .label {
+    color: styles.$neon-blue;
+    font-size: 20px;
+    text-shadow: 0px 0px 5px styles.$neon-blue;
+  }
+
+  .score {
+    color: styles.$neon-white;
+    font-size: 20px;
+    text-shadow: 0px 0px 5px styles.$neon-white;
+  }
+}
+
+.today-score-area {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+
+  .title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .label {
+    color: styles.$neon-blue;
+    font-size: 20px;
+    text-shadow: 0px 0px 5px styles.$neon-blue;
+    line-height: 30px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .score-row {
+      display: flex;
+      
+      .ranking {
+        width: 30px;
+      }
+
+      .text-size {
+        font-size: 18px;
+        line-height: 30px;
+      }
+
+      .first-text {
+        color: #FFDB50;
+        text-shadow: 0px 0px 5px #FFDB50;
+      }
+
+      .second-text {
+        color: #2F90FF;
+        text-shadow: 0px 0px 5px #2F90FF;
+      }
+
+      .third-text {
+        color: #D06800;
+        text-shadow: 0px 0px 5px #D06800;
+      }
+
+      .other-text {
+        color: styles.$neon-white;
+        text-shadow: 0px 0px 5px styles.$neon-white;
+      }
+    }
+
+    .divider {
+      border-bottom: 1px solid styles.$neon-blue;
+    }
+  }
+}

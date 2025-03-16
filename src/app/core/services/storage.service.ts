@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TodayScoreMaxCount } from '../constants';
 
 /**
  * 今日のスコア
@@ -78,17 +79,11 @@ export class StorageService {
       localStorage.removeItem(this.LocalStorageKey.todayScore);
     }
 
-    // 今日の日付を取得する
-    const date = new Date();
-    const today = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+    // 日付を確認する
+    this.checkTodayScoreDate();
 
-    // 今日のスコアの日付と今日の日付が一致しない場合
-    if (this.todayScore.date != today) {
-      // 今日の日付に更新してスコアをリセットする
-      this._todayScore.date = today;
-      this._todayScore.score.length = 0;
-    }
-    else {
+    // スコアがクリアされていない場合
+    if (this._todayScore.score.length > 0) {
       // 取得したスコアを昇順に並べ替える
       this._todayScore.score.sort((a, b) => a - b);
     }
@@ -143,21 +138,39 @@ export class StorageService {
   }
 
   /**
+   * 今日のスコアの日付を確認する
+   * もし日付が異なっている場合、日付を更新して、スコアをクリアする
+   */
+  public checkTodayScoreDate(): void {
+    const today = this.getTodayDate();
+    // 今日のスコアの日付と今日の日付が一致しない場合
+    if (this._todayScore.date != today) {
+      // 今日の日付に更新してスコアをリセットする
+      this._todayScore.date = today;
+      this._todayScore.score.length = 0;
+      localStorage.setItem(this.LocalStorageKey.todayScore, JSON.stringify(this._todayScore));
+    }
+  }
+
+  /**
    * スコアを設定する
    * @param score 設定するスコア
    * @returns ベストスコアを更新したか否か
    */
   public setScore(score: number): boolean {
     let isUpdateTodayScore = false;
-    if (this._todayScore.score.length < 10) {
+    // 今日のスコアがまだ10位まで埋まってない場合、新しいスコアを追加する
+    if (this._todayScore.score.length < TodayScoreMaxCount) {
       this._todayScore.score.push(score);
       isUpdateTodayScore = true;
     }
-    else if (score < this._todayScore.score[9]) {
-      this._todayScore.score[9] = score;
+    // 新しいスコアが10位のスコアより良いスコアの場合、10位のスコアと新しいスコアを入れ替える
+    else if (score < this._todayScore.score[TodayScoreMaxCount - 1]) {
+      this._todayScore.score[TodayScoreMaxCount - 1] = score;
       isUpdateTodayScore = true;
     }
 
+    // 今日のスコアが更新された場合
     if (isUpdateTodayScore) {
       // 昇順に並べ替える
       this._todayScore.score.sort((a, b) => a - b);
@@ -165,12 +178,14 @@ export class StorageService {
       console.info('Update TodayScore:', this._todayScore.score);
     }
 
+    // ベストスコアが更新された場合
     if (this._bestScore === null || this._bestScore > score) {
       this._bestScore = score;
       localStorage.setItem(this.LocalStorageKey.bestScore, this._bestScore.toString());
       console.info('Update BestScore:', this._bestScore);
       return true;
     }
+
     return false;
   }
 
@@ -296,5 +311,14 @@ export class StorageService {
     const id = time + random;
 
     return id;
+  }
+
+  /**
+   * 今日の日付(yyyy/M/d)を取得する
+   */
+  private getTodayDate(): string {
+    const date = new Date();
+    const today = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+    return today;
   }
 }

@@ -14,6 +14,7 @@ import { PAGE_ADDRESS } from '../../../app.routes';
 import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
 import { StorageService } from '../../../core/services/storage.service';
 import { ResultDialogComponent, ResultDialogData } from './unique-components/result-dialog/result-dialog.component';
+import { envMode, environment } from '../../../../environments/environment';
 
 /**
  * 丸ボタンの種類
@@ -182,6 +183,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     });
 
     this.questionList = this.createQuestionList(); // 問題リストを生成する
+    if (environment.env === envMode.dev) {
+      console.info(this.questionList);
+    }
 
     setTimeout(() => {
       this.setCalculateAnimation(); // 演算アニメーションの設定
@@ -279,6 +283,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     // 最終問題が終了した場合
     if (this.questionCounter === this.MaxQuestionCount) {
       // TODO: 記録をバックエンドに送信
+
+      // 日付を確認する
+      this.storageService.checkTodayScoreDate();
 
       // タイムをストレージに記録する
       this.storageService.setScore(this.time);

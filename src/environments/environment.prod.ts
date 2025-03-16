@@ -1,6 +1,8 @@
+import { envMode } from "./environment";
+
 /**
  * 本番用環境変数
  */
 export const environment = {
-  env: 'prod',
+  env: envMode.prod,
 }

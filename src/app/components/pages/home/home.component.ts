@@ -95,10 +95,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * RANKINGボタンクリックイベント
+   * SCOREボタンクリックイベント
    */
-  public onClickRankingButton(): void {
-    this.changeComponentService.changePage(PAGE_ADDRESS.RANKING);
+  public onClickScoreButton(): void {
+    this.changeComponentService.changePage(PAGE_ADDRESS.SCORE);
   }
 
   /**

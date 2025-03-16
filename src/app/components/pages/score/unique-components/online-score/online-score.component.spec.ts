@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OnlineScoreComponent } from './online-score.component';
 
-import { RankingComponent } from './ranking.component';
-
-describe('RankingComponent', () => {
-  let component: RankingComponent;
-  let fixture: ComponentFixture<RankingComponent>;
+describe('OnlineScoreComponent', () => {
+  let component: OnlineScoreComponent;
+  let fixture: ComponentFixture<OnlineScoreComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RankingComponent]
+      imports: [OnlineScoreComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RankingComponent);
+    fixture = TestBed.createComponent(OnlineScoreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

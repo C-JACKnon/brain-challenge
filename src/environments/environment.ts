@@ -1,6 +1,14 @@
 /**
+ * 環境モード
+ */
+export enum envMode {
+  dev = 'dev',
+  prod = 'prod'
+}
+
+/**
  * 開発用環境変数
  */
 export const environment = {
-  env: 'dev',
+  env: envMode.dev,
 }
