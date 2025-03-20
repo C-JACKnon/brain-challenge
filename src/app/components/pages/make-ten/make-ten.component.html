@@ -2,7 +2,7 @@
   <div class="make-ten-elements">
     <div class="header">
       <div class="header-elements">
-        <div class="header-text">Make 10</div>
+        <div class="header-text" translate="no">Make 10</div>
         <svg-icon
           src="assets/flag.svg"
           [applyClass]="true"
@@ -22,7 +22,7 @@
           <div class="pentagon-mark-line five" [ngClass]="{ 'highlights': questionCounter >= 5 }"></div>
           <div class="question-counter">{{questionCounter}}</div>
         </div>
-        <div class="timer">{{ time | scoreTime }}</div>
+        <div class="timer" translate="no">{{ time | scoreTime }}</div>
       </div>
     </div>
     <div id="circle-button-area">

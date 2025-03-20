@@ -2,7 +2,7 @@
   <div class="score-elements">
     <div class="header">
       <div class="header-elements">
-        <div class="header-text">SCORE</div>
+        <div class="header-text" translate="no">SCORE</div>
         <svg-icon
           src="assets/arrow_back.svg"
           [applyClass]="true"
@@ -23,6 +23,7 @@
             [ngClass]="{
               'select-tab': selectTabIndex === 0
             }"
+            translate="no"
           >
             My Score
           </div>
@@ -36,6 +37,7 @@
             [ngClass]="{
               'select-tab': selectTabIndex === 1
             }"
+            translate="no"
           >
             Online Score
           </div>

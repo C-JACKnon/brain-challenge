@@ -11,10 +11,16 @@
       </svg-icon> -->
     </div>
     <div class="title">
-      <div class="title-text">
+      <div class="title-text" translate="no">
         Make 10
       </div>
-      <div *ngIf="giveUpAnswer != ''" class="subtitle-text">A. {{giveUpAnswer}}</div>
+      <div
+        *ngIf="giveUpAnswer != ''"
+        class="subtitle-text"
+        translate="no"
+      >
+        A. {{giveUpAnswer}}
+      </div>
     </div>
     <div class="actions">
       <div>
@@ -48,7 +54,7 @@
       />
     </div>
     <div class="footer-elements">
-      <div class="version">V{{Version}}</div>
+      <div class="version" translate="no">V{{Version}}</div>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="online-score-area">
   <div class="title">
-    <div class="label">Today's Score</div>
-    <div class="label">{{ date }}</div>
+    <div class="label" translate="no">Today's Score</div>
+    <div class="label" translate="no">{{ date }}</div>
   </div>
   <ng-container *ngFor="let i of todayScoreMaxCountArray">
     <div class="row">
@@ -29,6 +29,7 @@
                 'text-11-10': onlineScore[i].name.length === 11 || onlineScore[i].name.length === 10,
                 'text-9': onlineScore[i].name.length <= 9,
               }"
+              translate="no"
             >
               {{onlineScore[i].name}}
             </div>

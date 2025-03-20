@@ -1,6 +1,6 @@
 <div class="my-score-area">
   <div class="best-score-area">
-    <div class="label">Best Score</div>
+    <div class="label" translate="no">Best Score</div>
     <div
       *ngIf="storageService.bestScore === null"
       class="score"
@@ -16,7 +16,7 @@
   </div>
   <div class="today-score-area">
     <div class="title">
-      <div class="label">Today's Score</div>
+      <div class="label" translate="no">Today's Score</div>
       <div class="label">{{todayScore.date}}</div>
     </div>
     <ng-container *ngFor="let i of todayScoreMaxCountArray">
