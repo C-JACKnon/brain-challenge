@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TodayScoreMaxCount } from '../constants';
-
-/**
- * 今日のスコア
- */
-export type TodayScore = {
-  date: string, // scoreの日付(yyyy/M/d)
-  score: number[], // 今日のスコアの1位から10位まで
-}
+import { TodayScore } from '../models';
 
 /**
  * ストレージサービス

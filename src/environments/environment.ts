@@ -11,4 +11,5 @@ export enum envMode {
  */
 export const environment = {
   env: envMode.dev,
+  serverAddress: 'http://localhost:3000',
 }

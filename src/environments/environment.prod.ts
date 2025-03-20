@@ -5,4 +5,5 @@ import { envMode } from "./environment";
  */
 export const environment = {
   env: envMode.prod,
+  serverAddress: 'https://c-jacknon.github.io/',
 }

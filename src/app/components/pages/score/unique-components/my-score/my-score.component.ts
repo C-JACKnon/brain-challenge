@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { StorageService, TodayScore } from '../../../../../core/services/storage.service';
+import { StorageService } from '../../../../../core/services/storage.service';
 import { ScoreTimePipe } from '../../../../../core/pipe/score-time.pipe';
 import { TodayScoreMaxCount } from '../../../../../core/constants';
+import { TodayScore } from '../../../../../core/models';
 
 /**
  * 自己スコアコンポーネント

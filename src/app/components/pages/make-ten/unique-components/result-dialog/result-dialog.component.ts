@@ -6,13 +6,6 @@ import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from '../../../../share/sq
 import { ScoreTimePipe } from "../../../../../core/pipe/score-time.pipe";
 
 /**
- * リザルトダイアログ用のデータ
- */
-export type ResultDialogData = {
-  score: number // 表示するスコア
-};
-
-/**
  * リザルトダイアログコンポーネント
  * @class
  */

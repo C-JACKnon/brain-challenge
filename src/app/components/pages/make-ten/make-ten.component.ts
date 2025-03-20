@@ -13,8 +13,11 @@ import { ChangeComponentService } from '../../../core/services/change-component.
 import { PAGE_ADDRESS } from '../../../app.routes';
 import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
 import { StorageService } from '../../../core/services/storage.service';
-import { ResultDialogComponent, ResultDialogData } from './unique-components/result-dialog/result-dialog.component';
+import { ResultDialogComponent } from './unique-components/result-dialog/result-dialog.component';
 import { envMode, environment } from '../../../../environments/environment';
+import { HttpService } from '../../../core/services/http.service';
+import { PostScoreResponse, ResultDialogData } from '../../../core/models';
+import { HttpStatusCode } from '@angular/common/http';
 
 /**
  * 丸ボタンの種類
@@ -64,6 +67,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
   private readonly storageService = inject(StorageService); // ストレージサービス
   private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
+  private readonly httpService: HttpService = inject(HttpService); // HTTPサービス
   
   public readonly CircleButtonType = CIRCLE_BUTTON_TYPE;
   public readonly CircleButtonColor = CIRCLE_BUTTON_COLOR;
@@ -282,7 +286,18 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     
     // 最終問題が終了した場合
     if (this.questionCounter === this.MaxQuestionCount) {
-      // TODO: 記録をバックエンドに送信
+      // 記録をバックエンドに送信
+      this.httpService.postScore(this.time)
+      .subscribe({
+        next: (response: PostScoreResponse) => {
+          if (response.status != HttpStatusCode.Ok) {
+            console.error(`StatusCode: ${response.status} message: ${response.message}`);
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
 
       // 日付を確認する
       this.storageService.checkTodayScoreDate();
