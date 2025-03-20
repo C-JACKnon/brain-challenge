@@ -18,6 +18,8 @@ import { envMode, environment } from '../../../../environments/environment';
 import { HttpService } from '../../../core/services/http.service';
 import { PostScoreResponse, ResultDialogData } from '../../../core/models';
 import { HttpStatusCode } from '@angular/common/http';
+import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 /**
  * 丸ボタンの種類
@@ -68,6 +70,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly storageService = inject(StorageService); // ストレージサービス
   private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
   private readonly httpService: HttpService = inject(HttpService); // HTTPサービス
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar); // スナックバーサービス
   
   public readonly CircleButtonType = CIRCLE_BUTTON_TYPE;
   public readonly CircleButtonColor = CIRCLE_BUTTON_COLOR;
@@ -296,6 +299,16 @@ export class MakeTenComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error(err);
+          const snackBarData: SnackBarData = new SnackBarData(
+            'Failed to send score.'
+          );
+          const snackBarConfig: MatSnackBarConfig = {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            data: snackBarData,
+          };
+          this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
         }
       });
 

@@ -27,10 +27,10 @@ import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar
 export class HomeComponent implements OnInit, AfterViewInit {
   private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
   private readonly storageService = inject(StorageService); // ストレージサービス
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
 
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
   public readonly Version = ApplicationVersion;
-  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
   
   public isFocusPlayerNameInputForm: boolean = false;
   public giveUpAnswer: string = ''; // ギブアップ時に表示する答え（空文字の場合は非表示）

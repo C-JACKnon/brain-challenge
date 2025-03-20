@@ -6,6 +6,8 @@ import { TodayScoreMaxCount } from '../../../../../core/constants';
 import { HttpService } from '../../../../../core/services/http.service';
 import { GetOnlineScoreResponse, PlayerInfo } from '../../../../../core/models';
 import { HttpStatusCode } from '@angular/common/http';
+import { SnackBarComponent, SnackBarData } from '../../../../share/snack-bar/snack-bar.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 /**
  * オンラインスコアコンポーネント
@@ -24,6 +26,7 @@ import { HttpStatusCode } from '@angular/common/http';
 export class OnlineScoreComponent implements OnInit {
   public readonly storageService = inject(StorageService);
   private readonly httpService = inject(HttpService);
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
   
   public date: string = '';
   public onlineScore: PlayerInfo[] = [];
@@ -53,6 +56,16 @@ export class OnlineScoreComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
+        const snackBarData: SnackBarData = new SnackBarData(
+          'Failed to get Online Score.'
+        );
+        const snackBarConfig: MatSnackBarConfig = {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          data: snackBarData,
+        };
+        this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
       }
     });
   }
