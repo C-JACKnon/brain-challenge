@@ -1,5 +1,11 @@
 @use "../../../../styles.scss";
 
+::ng-deep {
+  .mat-mdc-tab-body-content {
+    overflow: hidden !important;
+  }
+}
+
 .display-component {
   height: 100%;
   width: 100%;
