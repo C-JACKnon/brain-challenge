@@ -5,5 +5,5 @@ import { envMode } from "../app/app.component";
  */
 export const environment = {
   env: envMode.prod,
-  serverAddress: 'https://c-jacknon.github.io/',
+  serverAddress: 'https://brain-challenge-backend.onrender.com',
 }
