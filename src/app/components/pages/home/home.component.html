@@ -11,18 +11,19 @@
       </svg-icon> -->
     </div>
     <div class="title">
-      <div class="title-text">
+      <div class="title-text" translate="no">
         Make 10
       </div>
-      <div *ngIf="giveUpAnswer != ''" class="subtitle-text">A. {{giveUpAnswer}}</div>
-      <div *ngIf="scoreTime > 0" class="subtitle-text score-time">
-        TIME:
-        <div appTimeFormat [time]="scoreTime"></div>
+      <div
+        *ngIf="giveUpAnswer != ''"
+        class="subtitle-text"
+        translate="no"
+      >
+        A. {{giveUpAnswer}}
       </div>
     </div>
     <div class="actions">
-      <!-- TODO: プレリリースではランキング画面をドロップするためコメントアウト -->
-      <!-- <div>
+      <div>
         <input
           type="text"
           id="user-name"
@@ -38,23 +39,22 @@
             'user-name-focus': isFocusPlayerNameInputForm
           }"
         ></div>
-      </div> -->
+      </div>
       <square-button
         [label]="'START'"
         [isLarge]="true"
         [color]="SquareButtonColor.BLUE"
         (onClick)="onClickStartButton()"
       />
-      <!-- TODO: プレリリースではランキング画面をドロップするためコメントアウト -->
-      <!-- <square-button
-        [label]="'RANKING'"
+      <square-button
+        [label]="'SCORE'"
         [isLarge]="true"
         [color]="SquareButtonColor.BLUE"
-        (onClick)="onClickRankingButton()"
-      /> -->
+        (onClick)="onClickScoreButton()"
+      />
     </div>
     <div class="footer-elements">
-      <div class="version">V{{Version}}</div>
+      <div class="version" translate="no">V{{Version}}</div>
     </div>
   </div>
 </div>

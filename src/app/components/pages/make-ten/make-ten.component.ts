@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { TimeFormatDirective } from '../../../core/directive/time-format.directive';
 import { MaxTime, VisiblePageAnimationTime } from '../../../core/constants';
 import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from "../../share/square-button/square-button.component";
 import { CIRCLE_BUTTON_COLOR, CircleButtonComponent } from "./unique-components/circle-button/circle-button.component";
@@ -12,7 +11,15 @@ import { GiveUpDialogComponent } from './unique-components/give-up-dialog/give-u
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeComponentService } from '../../../core/services/change-component.service';
 import { PAGE_ADDRESS } from '../../../app.routes';
-import { MakeTenNotificationService } from '../../../core/services/make-ten-notification.service';
+import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
+import { StorageService } from '../../../core/services/storage.service';
+import { ResultDialogComponent } from './unique-components/result-dialog/result-dialog.component';
+import { envMode, environment } from '../../../../environments/environment';
+import { HttpService } from '../../../core/services/http.service';
+import { PostScoreResponse, ResultDialogData } from '../../../core/models';
+import { HttpStatusCode } from '@angular/common/http';
+import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 /**
  * 丸ボタンの種類
@@ -50,14 +57,21 @@ export enum CALCULATE_ANIMATION_CONDITION {
   imports: [
     CommonModule,
     AngularSvgIconModule,
-    TimeFormatDirective,
     SquareButtonComponent,
-    CircleButtonComponent
+    CircleButtonComponent,
+    ScoreTimePipe
   ],
   templateUrl: './make-ten.component.html',
   styleUrl: './make-ten.component.scss'
 })
 export class MakeTenComponent implements OnInit, OnDestroy {
+  private readonly displaySizeManagementService = inject(DisplaySizeManagementService); // 画面サイズ管理サービス
+  private readonly changeComponentService = inject(ChangeComponentService); // 画面コンポーネント切替サービス
+  private readonly storageService = inject(StorageService); // ストレージサービス
+  private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
+  private readonly httpService: HttpService = inject(HttpService); // HTTPサービス
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar); // スナックバーサービス
+  
   public readonly CircleButtonType = CIRCLE_BUTTON_TYPE;
   public readonly CircleButtonColor = CIRCLE_BUTTON_COLOR;
   public readonly SquareButtonColor = SQUARE_BUTTON_COLOR;
@@ -76,7 +90,6 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly StartCalculateAnimationWaitTime: number = 80; // 演算アニメーションの開始待機時間(ms)
   private readonly FinishCalculateAfterWaitTime: number = 100; // 演算終了後の待機時間(ms)
   private readonly AnswerAfterWaitTime: number = 500; // 回答後の待機時間(ms)
-  private readonly dialog: MatDialog = inject(MatDialog); // ダイアログインスタンス
 
   /**
    * 丸ボタンエリア内の位置の値
@@ -156,17 +169,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject(); // Subscribe一括破棄用変数
 
-  /**
-   * @constructor
-   * @param displaySizeManagementService 画面サイズ管理サービス
-   * @param changeComponentService 画面コンポーネント切替サービス
-   * @param makeTenNotificationService Make10用の通知サービス
-   */
-  constructor(
-    private displaySizeManagementService: DisplaySizeManagementService,
-    private changeComponentService: ChangeComponentService,
-    private makeTenNotificationService: MakeTenNotificationService,
-  ) { }
+  // region LifeCycle Method
 
   /**
    * ライフサイクル: コンポーネント生成時
@@ -187,6 +190,9 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     });
 
     this.questionList = this.createQuestionList(); // 問題リストを生成する
+    if (environment.env === envMode.dev) {
+      console.info(this.questionList);
+    }
 
     setTimeout(() => {
       this.setCalculateAnimation(); // 演算アニメーションの設定
@@ -203,6 +209,8 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  // region Public Method
 
   /**
    * 白旗ボタンクリックイベント
@@ -281,24 +289,45 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     
     // 最終問題が終了した場合
     if (this.questionCounter === this.MaxQuestionCount) {
-      // TODO: 記録をバックエンドに送信
-      // TODO: ランキング画面に遷移する
+      // 記録をバックエンドに送信
+      this.httpService.postScore(this.time)
+      .subscribe({
+        next: (response: PostScoreResponse) => {
+          if (response.status != HttpStatusCode.Ok) {
+            console.error(`StatusCode: ${response.status} message: ${response.message}`);
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          const snackBarData: SnackBarData = new SnackBarData(
+            'Failed to send score.'
+          );
+          const snackBarConfig: MatSnackBarConfig = {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            data: snackBarData,
+          };
+          this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
+        }
+      });
 
-      // TODO: プレリリースではランキング画面をドロップするためホーム画面に遷移する
-      // ギブアップ時にホーム画面に表示する答えを空文字にしておく（非表示にする）
-      this.makeTenNotificationService.setGiveUpAnswer('');
+      // 日付を確認する
+      this.storageService.checkTodayScoreDate();
 
-      // ホーム画面に表示するタイムを設定する
-      this.makeTenNotificationService.setScoreTime(this.time);
+      // タイムをストレージに記録する
+      this.storageService.setScore(this.time);
 
-      // ホーム画面に遷移する
-      this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
+      // リザルトダイアログを表示する
+      this.openResultDialog();
       return;
     }
 
     this.questionCounter++; // 次の問題を設定する
     this.resetExecute(false); // リセット実行
   }
+
+  // region Private Method
 
   /**
    * 問題を生成する
@@ -337,7 +366,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    */
   private startTimer(): void {
     // 最大タイムを超えている場合
-    if (this.time >= MaxTime) {
+    if (this.time > MaxTime) {
       return;
     }
     // 既にタイマーをスタートしている場合
@@ -348,7 +377,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     const startTime: number = Date.now() - this.time;
     this.timerId = window.setInterval(() => {
       this.time = Date.now() - startTime;
-      if (this.time >= MaxTime) {
+      if (this.time > MaxTime) {
         this.stopTImer();
       }
     }, 1);
@@ -1350,14 +1379,37 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     // ダイアログを閉じた際のイベント
     dialogRef.afterClosed().subscribe((isGiveUp: boolean) => {
       if (isGiveUp) {
-        // 全問正解時に表示するタイムを0に設定しておく（非表示にする）
-        this.makeTenNotificationService.setScoreTime(0);
-
         // ホーム画面に表示する答えを設定する
         const answer = this.questionList[this.questionCounter - 1].answer;
-        this.makeTenNotificationService.setGiveUpAnswer(answer);
+        this.storageService.setGiveUpAnswer(answer);
 
         // ホーム画面に遷移する
+        this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
+      }
+    });
+  }
+
+  /**
+   * リザルトダイアログを表示する
+   */
+  private openResultDialog(): void {
+    const data: ResultDialogData = {
+      score: this.time
+    };
+    // ダイアログを表示する
+    const dialogRef = this.dialog.open(ResultDialogComponent, {
+      data: data,
+      disableClose: true // ダイアログ外を押下しても閉じないように設定
+    });
+
+    // ダイアログを閉じた際のイベント
+    dialogRef.afterClosed().subscribe((isRetry: boolean) => {
+      if (isRetry) {
+        // trueの場合、Make10をリトライする
+        this.changeComponentService.changePage(PAGE_ADDRESS.MAKE_TEN);
+      }
+      else {
+        // falseの場合、ホーム画面に遷移する
         this.changeComponentService.changePage(PAGE_ADDRESS.HOME);
       }
     });

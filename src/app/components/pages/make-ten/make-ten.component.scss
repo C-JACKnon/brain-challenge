@@ -44,14 +44,16 @@
       filter: drop-shadow(0px 0px 2px #ccf1f946);
       transition: 0.2s;
       cursor: pointer;
-    }
 
-    .icon-button:hover {
-      filter: drop-shadow(0px 0px 6px #ccf1f977);
-    }
-    
-    .icon-button:active {
-      filter: drop-shadow(0px 0px 6px styles.$neon-white);
+      @media screen and (min-width: styles.$smart-phone-width) {
+        &:hover {
+          filter: drop-shadow(0px 0px 6px #ccf1f977);
+        }
+
+        &:active {
+          filter: drop-shadow(0px 0px 6px styles.$neon-white);
+        }
+      }
     }
   }
 

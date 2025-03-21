@@ -1,0 +1,25 @@
+<div class="dialog-outline">
+  <div class="dialog-header">
+    <div class="title" translate="no">Score</div>
+  </div>
+  <div class="dialog-inline">
+    <div class="score">{{ data.score | scoreTime }}</div>
+    <square-button
+      [icon]="'assets/retry.svg'"
+      [label]="'RETRY'"
+      [isLarge]="false"
+      [color]="SquareButtonColor.BLUE"
+      (onClick)="onClickRetryButton()"
+    >
+    </square-button>
+    <square-button
+      [icon]="'assets/home.svg'"
+      [label]="'HOME'"
+      [isLarge]="false"
+      [color]="SquareButtonColor.BLUE"
+      (onClick)="onClickHomeButton()"
+    >
+    </square-button>
+  </div>
+  <div class="dialog-footer"></div>
+</div>

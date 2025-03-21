@@ -1,0 +1,49 @@
+<div class="display-component">
+  <div class="score-elements">
+    <div class="header">
+      <div class="header-elements">
+        <div class="header-text" translate="no">SCORE</div>
+        <svg-icon
+          src="assets/arrow_back.svg"
+          [applyClass]="true"
+          [class]="'icon-button'"
+          (click)="onClickReturnButton()"
+        ></svg-icon>
+      </div>
+      <div class="header-bottom-border"></div>
+    </div>
+    <mat-tab-group
+      (selectedIndexChange)="onSelectTab($event)"
+      class="score-type-tab-group"
+    >
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div
+            class="score-type-tab"
+            [ngClass]="{
+              'select-tab': selectTabIndex === 0
+            }"
+            translate="no"
+          >
+            My Score
+          </div>
+        </ng-template>
+        <my-score></my-score>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div
+            class="score-type-tab"
+            [ngClass]="{
+              'select-tab': selectTabIndex === 1
+            }"
+            translate="no"
+          >
+            Online Score
+          </div>
+        </ng-template>
+        <online-score></online-score>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
