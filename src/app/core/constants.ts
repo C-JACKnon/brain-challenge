@@ -1,5 +1,5 @@
 // アプリケーションのバージョン
-export const ApplicationVersion: string = '0.0.0';
+export const ApplicationVersion: string = '1.0.0';
 
 // 最大タイム(超えたら記録なし)
 export const MaxTime: number = 5999999;
