@@ -9,102 +9,115 @@
   align-items: center;
   cursor: pointer;
   transition: 0.2s;
+
+  @media screen and (min-width: styles.$smart-phone-width) {
+    &:hover {
+      background-color: #23daff0f;
+    }
+  }
+  
+  .button-text {
+    font-size: 24px;
+  }
 }
 
-.button-outline:hover {
-  background-color: #23daff0f;
-}
-
-.button-text {
-  font-size: 24px;
-}
 
 .blue-outline {
   border: solid styles.$neon-blue;
   box-shadow: 0px 0px 3px 0px styles.$neon-blue, inset 0px 0px 3px 0px styles.$neon-blue;
-}
 
-.blue-outline:hover {
-  box-shadow: 0px 0px 10px 0px styles.$neon-blue, inset 0px 0px 10px 0px styles.$neon-blue;
-}
+  @media screen and (min-width: styles.$smart-phone-width) {
+    &:hover {
+      box-shadow: 0px 0px 10px 0px styles.$neon-blue, inset 0px 0px 10px 0px styles.$neon-blue;
+    }
+  
+    &:active {
+      background-color: #23daff8b;
+    }
+  }
 
-.blue-outline:active {
-  background-color: #23daff8b;
-}
-
-.blue-text {
-  color: styles.$neon-blue;
-  text-shadow: 0px 0px 5px styles.$neon-blue;
+  .blue-text {
+    color: styles.$neon-blue;
+    text-shadow: 0px 0px 5px styles.$neon-blue;
+  }
 }
 
 .green-outline {
   border: solid styles.$neon-green;
   box-shadow: 0px 0px 3px 0px styles.$neon-green, inset 0px 0px 3px 0px styles.$neon-green;
-}
 
-.green-outline:hover {
-  box-shadow: 0px 0px 10px 0px styles.$neon-green, inset 0px 0px 10px 0px styles.$neon-green;
-}
+  @media screen and (min-width: styles.$smart-phone-width) {
+    &:hover {
+      box-shadow: 0px 0px 10px 0px styles.$neon-green, inset 0px 0px 10px 0px styles.$neon-green;
+    }
+  
+    &:active {
+      background-color: #00ff9989;
+    }
+  }
 
-.green-outline:active {
-  background-color: #00ff9989;
-}
-
-.green-text {
-  color: styles.$neon-green;
-  text-shadow: 0px 0px 5px styles.$neon-green;
+  .green-text {
+    color: styles.$neon-green;
+    text-shadow: 0px 0px 5px styles.$neon-green;
+  }
 }
 
 .yellow-outline {
   border: solid styles.$neon-yellow;
   box-shadow: 0px 0px 3px 0px styles.$neon-yellow, inset 0px 0px 3px 0px styles.$neon-yellow;
-}
 
-.yellow-outline:hover {
-  box-shadow: 0px 0px 10px 0px styles.$neon-yellow, inset 0px 0px 10px 0px styles.$neon-yellow;
-}
+  @media screen and (min-width: styles.$smart-phone-width) {
+    &:hover {
+      box-shadow: 0px 0px 10px 0px styles.$neon-yellow, inset 0px 0px 10px 0px styles.$neon-yellow;
+    }
+  
+    &:active {
+      background-color: #ffd9508a;
+    }
+  }
 
-.yellow-outline:active {
-  background-color: #ffd9508a;
-}
-
-.yellow-text {
-  color: styles.$neon-yellow;
-  text-shadow: 0px 0px 5px styles.$neon-yellow;
+  .yellow-text {
+    color: styles.$neon-yellow;
+    text-shadow: 0px 0px 5px styles.$neon-yellow;
+  }
 }
 
 .red-outline {
   border: solid styles.$neon-red;
   box-shadow: 0px 0px 3px 0px styles.$neon-red, inset 0px 0px 3px 0px styles.$neon-red;
-}
 
-.red-outline:hover {
-  box-shadow: 0px 0px 10px 0px styles.$neon-red, inset 0px 0px 10px 0px styles.$neon-red;
-}
+  @media screen and (min-width: styles.$smart-phone-width) {
+    &:hover {
+      box-shadow: 0px 0px 10px 0px styles.$neon-red, inset 0px 0px 10px 0px styles.$neon-red;
+    }
+  
+    &:active {
+      background-color: #d8006595;
+    }
+  }
 
-.red-outline:active {
-  background-color: #d8006595;
-}
-
-.red-text {
-  color: styles.$neon-red;
-  text-shadow: 0px 0px 5px styles.$neon-red;
+  .red-text {
+    color: styles.$neon-red;
+    text-shadow: 0px 0px 5px styles.$neon-red;
+  }
 }
 
 .purple-outline {
   border: solid styles.$neon-purple;
   box-shadow: 0px 0px 3px 0px styles.$neon-purple, inset 0px 0px 3px 0px styles.$neon-purple;
-}
 
-.purple-outline:hover {
-  box-shadow: 0px 0px 10px 0px styles.$neon-purple, inset 0px 0px 10px 0px styles.$neon-purple;
-}
+  @media screen and (min-width: styles.$smart-phone-width) {
+    &:hover {
+      box-shadow: 0px 0px 10px 0px styles.$neon-purple, inset 0px 0px 10px 0px styles.$neon-purple;
+    }
+  
+    &:active {
+      background-color: #9462ff9d;
+    }
+  }
 
-.purple-outline:active {
-  background-color: #9462ff9d;
-}
-
-.purple-text {
-  color: styles.$neon-purple;
-  text-shadow: 0px 0px 5px styles.$neon-purple;
+  .purple-text {
+    color: styles.$neon-purple;
+    text-shadow: 0px 0px 5px styles.$neon-purple;
+  }
 }
