@@ -20,7 +20,7 @@
           <div class="pentagon-mark-line three" [ngClass]="{ 'highlights': questionCounter >= 3 }"></div>
           <div class="pentagon-mark-line four" [ngClass]="{ 'highlights': questionCounter >= 4 }"></div>
           <div class="pentagon-mark-line five" [ngClass]="{ 'highlights': questionCounter >= 5 }"></div>
-          <div class="question-counter">{{questionCounter}}</div>
+          <div class="question-counter" translate="no">{{questionCounter}}</div>
         </div>
         <div class="timer" translate="no">{{ time | scoreTime }}</div>
       </div>
