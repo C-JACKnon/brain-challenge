@@ -1,4 +1,4 @@
-import { envMode } from "./environment";
+import { envMode } from "../app/app.component";
 
 /**
  * 本番用環境変数

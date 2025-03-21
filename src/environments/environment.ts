@@ -1,10 +1,4 @@
-/**
- * 環境モード
- */
-export enum envMode {
-  dev = 'dev',
-  prod = 'prod'
-}
+import { envMode } from "../app/app.component";
 
 /**
  * 開発用環境変数

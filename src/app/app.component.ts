@@ -8,6 +8,14 @@ import { environment } from '../environments/environment';
 import { Subject, takeUntil } from 'rxjs';
 
 /**
+ * 環境モード
+ */
+export enum envMode {
+  dev = 'dev',
+  prod = 'prod'
+}
+
+/**
  * アプリケーション画面コンポーネント
  * @class
  */
