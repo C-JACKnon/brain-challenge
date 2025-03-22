@@ -8,6 +8,7 @@ import { GetOnlineScoreResponse, PlayerInfo } from '../../../../../core/models';
 import { HttpStatusCode } from '@angular/common/http';
 import { SnackBarComponent, SnackBarData } from '../../../../share/snack-bar/snack-bar.component';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { NgWordScanPipe } from "../../../../../core/pipe/ng-word-scan.pipe";
 
 /**
  * オンラインスコアコンポーネント
@@ -18,8 +19,9 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
   standalone: true,
   imports: [
     CommonModule,
-    ScoreTimePipe
-  ],
+    ScoreTimePipe,
+    NgWordScanPipe
+],
   templateUrl: './online-score.component.html',
   styleUrl: './online-score.component.scss'
 })
