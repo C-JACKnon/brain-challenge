@@ -311,7 +311,7 @@ export class StorageService {
    */
   private getTodayDate(): string {
     const date = new Date();
-    const today = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
-    return today;
+    const formatter = new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "numeric", day: "numeric", timeZone: "Asia/Tokyo" });
+    return formatter.format(date);
   }
 }

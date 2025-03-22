@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { MaxTime, VisiblePageAnimationTime } from '../../../core/constants';
+import { MaxQuestionCount, MaxTime, VisiblePageAnimationTime } from '../../../core/constants';
 import { SQUARE_BUTTON_COLOR, SquareButtonComponent } from "../../share/square-button/square-button.component";
 import { CIRCLE_BUTTON_COLOR, CircleButtonComponent } from "./unique-components/circle-button/circle-button.component";
 import { DisplaySizeManagementService } from '../../../core/services/display-size-management.service';
@@ -80,7 +80,6 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private readonly CircleButtonMargin: number = 16; // 隣り合う丸ボタンの間の幅
   private readonly NumberAndOperatorCircleButtonMargin: number = 20; // 縦に並ぶ数字と演算子の丸ボタンの間の幅
   private readonly SelectAndNumberCircleButtonMargin: number = 60; // 縦に並ぶ選択と数字の丸ボタンの間の幅
-  private readonly MaxQuestionCount: number = 5; // 最大問題数
   private readonly ResetWaitTime: number = 200; // リセットボタン押下時の待機時間(ms)
   private readonly InitCircleButtonTransitionTime: number = 300; // 丸ボタン初期化時のtransition時間(ms)
   // 丸ボタン初期化時のtransition
@@ -289,7 +288,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     this.isStartAnswerEffect = false; // フラグを戻す
     
     // 最終問題が終了した場合
-    if (this.questionCounter === this.MaxQuestionCount) {
+    if (this.questionCounter === MaxQuestionCount) {
       // 記録をバックエンドに送信
       this.httpService.postScore(this.time)
       .subscribe({
@@ -336,7 +335,7 @@ export class MakeTenComponent implements OnInit, OnDestroy {
   private createQuestionList(): MakeTenQuestion[] {
     // 出題する問題のインデックスをランダム生成
     const indexList: number[] = [];
-    while (indexList.length < this.MaxQuestionCount) {
+    while (indexList.length < MaxQuestionCount) {
       const index = Math.floor(Math.random() * MakeTenQuestionList.length);
       // 重複していない場合のみインデックスリストに追加
       if (!indexList.includes(index)) {
