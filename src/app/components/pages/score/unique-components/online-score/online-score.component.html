@@ -33,21 +33,36 @@
             {{ i + 1 }}.
           </div>
           <div class="text-size other-text player-info">
-            <ng-template [ngIf]="onlineScoreList[daySelectIndex].ranking[i]" [ngIfElse]="elseBlock">
-              <div
-                [ngClass]="{
-                  'text-14': onlineScoreList[daySelectIndex].ranking[i].name.length >= 14,
-                  'text-13-12': onlineScoreList[daySelectIndex].ranking[i].name.length === 13 || onlineScoreList[daySelectIndex].ranking[i].name.length === 12,
-                  'text-11-10': onlineScoreList[daySelectIndex].ranking[i].name.length === 11 || onlineScoreList[daySelectIndex].ranking[i].name.length === 10,
-                  'text-9': onlineScoreList[daySelectIndex].ranking[i].name.length <= 9,
-                }"
-                translate="no"
-              >
-                {{onlineScoreList[daySelectIndex].ranking[i].name}}
+            <ng-template [ngIf]="onlineScoreList[daySelectIndex].ranking[i]" [ngIfElse]="nonScore">
+              <ng-template [ngIf]="storageService.muteList.includes(onlineScoreList[daySelectIndex].ranking[i].id)" [ngIfElse]="playerName">
+                <div class="text-9" translate="no">ゾウさん</div>
+              </ng-template>
+              <ng-template #playerName>
+                <div
+                  [ngClass]="{
+                    'text-14': onlineScoreList[daySelectIndex].ranking[i].name.length >= 14,
+                    'text-13-12': onlineScoreList[daySelectIndex].ranking[i].name.length === 13 || onlineScoreList[daySelectIndex].ranking[i].name.length === 12,
+                    'text-11-10': onlineScoreList[daySelectIndex].ranking[i].name.length === 11 || onlineScoreList[daySelectIndex].ranking[i].name.length === 10,
+                    'text-9': onlineScoreList[daySelectIndex].ranking[i].name.length <= 9,
+                  }"
+                  translate="no"
+                >
+                  {{onlineScoreList[daySelectIndex].ranking[i].name}}
+                </div>
+              </ng-template>
+              <div class="score-area" translate="no">
+                {{onlineScoreList[daySelectIndex].ranking[i].score | scoreTime}}
+                <svg-icon
+                  [src]="'assets/elephant.svg'"
+                  [applyClass]="true"
+                  [class]="'icon-button'"
+                  [ngClass]="storageService.muteList.includes(onlineScoreList[daySelectIndex].ranking[i].id) ? 'icon-button-on' : 'icon-button-off'"
+                  (click)="onClickMuteButton(onlineScoreList[daySelectIndex].ranking[i].id)"
+                >
+                </svg-icon>
               </div>
-              <div>{{onlineScoreList[daySelectIndex].ranking[i].score | scoreTime}}</div>
             </ng-template>
-            <ng-template #elseBlock>
+            <ng-template #nonScore>
               -
             </ng-template>
           </div>

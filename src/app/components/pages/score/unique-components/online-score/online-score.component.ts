@@ -8,6 +8,7 @@ import { GetOnlineScoreResponse, OnlineScore } from '../../../../../core/models'
 import { HttpStatusCode } from '@angular/common/http';
 import { SnackBarComponent, SnackBarData } from '../../../../share/snack-bar/snack-bar.component';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 /**
  * オンラインスコアコンポーネント
@@ -19,6 +20,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     ScoreTimePipe,
+    AngularSvgIconModule,
   ],
   templateUrl: './online-score.component.html',
   styleUrl: './online-score.component.scss'
@@ -82,6 +84,21 @@ export class OnlineScoreComponent implements OnInit {
    */
   public onClickDaySelectButton(index: number): void {
     this.daySelectIndex = index;
+  }
+
+  /**
+   * プレイヤーミュートボタン押下イベント
+   * @param playerId ミュートボタンを押下されたプレイヤーID
+   */
+  public onClickMuteButton(playerId: string): void {
+    // 既にミュート済みのプレイヤーの場合、ミュートを解除する
+    if (this.storageService.muteList.includes(playerId)) {
+      this.storageService.removeMuteList(playerId);
+    }
+    // ミュートする
+    else {
+      this.storageService.addMuteList(playerId);
+    }
   }
 
   /**

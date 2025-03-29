@@ -14,12 +14,14 @@ export class StorageService {
     id: string,
     playerName: string,
     bestScore: string,
-    todayScore: string
+    todayScore: string,
+    muteList: string,
   } = {
     id: 'Id',
     playerName: 'Name',
     bestScore: 'Best',
     todayScore: 'Today',
+    muteList: 'Mute',
   };
 
   // 設定されているID
@@ -48,7 +50,13 @@ export class StorageService {
     score: [],
   };
   public get todayScore(): TodayScore {
-    return this._todayScore;
+    return structuredClone<TodayScore>(this._todayScore);
+  }
+
+  // ミュートするプレイヤーIDリスト
+  private _muteList: string[] = [];
+  public get muteList(): string[] {
+    return structuredClone<string[]>(this._muteList);
   }
 
   private giveUpAnswer: string = ''; // ギブアップ時に表示する答え（空文字の場合は非表示）
@@ -70,6 +78,7 @@ export class StorageService {
       localStorage.removeItem(this.LocalStorageKey.playerName);
       localStorage.removeItem(this.LocalStorageKey.bestScore);
       localStorage.removeItem(this.LocalStorageKey.todayScore);
+      localStorage.removeItem(this.LocalStorageKey.muteList);
     }
 
     // 日付を確認する
@@ -87,6 +96,7 @@ export class StorageService {
       Name: this.playerName,
       BestScore: this.bestScore,
       TodayScore: this.todayScore,
+      MuteList: this.muteList,
     });
   }
 
@@ -182,6 +192,28 @@ export class StorageService {
     return false;
   }
 
+  /**
+   * プレイヤーIDをミュートリストに追加する
+   * @param playerId ミュートするプレイヤーID
+   */
+  public addMuteList(playerId: string): void {
+    if (!this._muteList.includes(playerId)) {
+      this._muteList.push(playerId);
+      localStorage.setItem(this.LocalStorageKey.muteList, JSON.stringify(this._muteList));
+    }
+  }
+
+  /**
+   * プレイヤーIDをミュートリストから削除する
+   * @param playerId リストから削除するプレイヤーID
+   */
+  public removeMuteList(playerId: string): void {
+    if (this._muteList.includes(playerId)) {
+      this._muteList = this._muteList.filter(x => x !== playerId);
+      localStorage.setItem(this.LocalStorageKey.muteList, JSON.stringify(this._muteList));
+    }
+  }
+
   // #region Private Method
 
   /**
@@ -264,6 +296,15 @@ export class StorageService {
       if (todayScore.date && this.isValidDateFormat(todayScore.date)) {
         this._todayScore.date = todayScore.date;
         this._todayScore.score = [...todayScore.score];
+      }
+    }
+
+    // ミュートするプレイヤーIDリストを取得
+    const muteListJson = localStorage.getItem(this.LocalStorageKey.muteList);
+    if (muteListJson) {
+      const muteList: string[] = JSON.parse(muteListJson);
+      if (muteList.length > 0) {
+        this._muteList = muteList;
       }
     }
   }
