@@ -5,30 +5,33 @@
 
 ## 開発手順
 
-特定のブランチを落とす。  
+1. 特定のブランチを落とす。  
 `git clone https://github.com/C-JACKnon/brain-challenge.git`
 
-`feature/{開発内容}`の形式で開発用ブランチを作成する。  
+2.  `feature/{開発内容}`の形式で開発用ブランチを作成する。  
 ※checkoutも忘れずに。
 
-開発用サーバを起動する。  
+3. 開発用サーバを起動する。  
 `npm start`
 
-起動した画面を確認する。  
+4. 起動した画面を確認する。  
 [http://localhost:4200/](http://localhost:4200/)
 
-実装をコミットする。  
+5. 実装をコミットする。  
 ⇒ [コミットルール](##コミットルール)参照。
 
-mainブランチへマージする。
+6. mainブランチへマージする。
 
-mainブランチで以下のコマンドを実行し、デプロイする。  
+7. アプリケーションバージョンを更新する。  
+[ApplicationVersion](src\app\core\constants.ts)
+
+8. mainブランチで以下のコマンドを実行し、デプロイする。  
 `npm run deploy`  
 ⇒ [gh-pagesブランチ](https://github.com/C-JACKnon/brain-challenge/commits/gh-pages/)へコミットされる。
 
-mainブランチとgh-pagesブランチにtagを付ける。
-* main: X.Y.Z
-* gh-pages: release_X.Y.Z
+9. mainブランチとgh-pagesブランチにtagを付ける。
+    * main: X.Y.Z
+    * gh-pages: release_X.Y.Z
 
 ## コミットルール
 
