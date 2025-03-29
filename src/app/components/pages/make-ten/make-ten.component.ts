@@ -1229,6 +1229,13 @@ export class MakeTenComponent implements OnInit, OnDestroy {
    * @returns 計算結果（文字列）
    */
   private calculateMultipliedBy(firstNumberArray: number[], secondNumberArray: number[]): string {
+    // どちらかの値が0の場合は0を返す
+    if ((firstNumberArray.length === 1 && firstNumberArray[0] === 0)
+      || (secondNumberArray.length === 1 && secondNumberArray[0] === 0))
+    {
+      return '0'
+    }
+
 		// どちらも値が分数の場合
 		if (firstNumberArray.length > 1 && secondNumberArray.length > 1) {
 			// 分子と分母をそれぞれ掛け算
@@ -1269,6 +1276,10 @@ export class MakeTenComponent implements OnInit, OnDestroy {
     // 割る値が0の場合はnullを返す
     if (secondNumberArray.length === 1 && secondNumberArray[0] === 0) {
       return null;
+    }
+    // 割られる値が0の場合は0を返す
+    else if (firstNumberArray.length === 1 && firstNumberArray[0] === 0) {
+      return '0';
     }
 
 		// どちらも値が分数の場合
