@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SquareButtonComponent } from './square-button.component';
+import { ToggleButtonComponent } from './toggle-button.component';
 
-describe('SquareButtonComponent', () => {
-  let component: SquareButtonComponent;
-  let fixture: ComponentFixture<SquareButtonComponent>;
+describe('ToggleButtonComponent', () => {
+  let component: ToggleButtonComponent;
+  let fixture: ComponentFixture<ToggleButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SquareButtonComponent]
+      imports: [ToggleButtonComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SquareButtonComponent);
+    fixture = TestBed.createComponent(ToggleButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

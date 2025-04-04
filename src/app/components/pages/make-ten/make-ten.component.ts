@@ -15,12 +15,12 @@ import { ScoreTimePipe } from '../../../core/pipe/score-time.pipe';
 import { StorageService } from '../../../core/services/storage.service';
 import { ResultDialogComponent } from './unique-components/result-dialog/result-dialog.component';
 import { environment } from '../../../../environments/environment';
-import { envMode } from '../../../app.component';
 import { HttpService } from '../../../core/services/http.service';
 import { PostScoreResponse, ResultDialogData } from '../../../core/models';
 import { HttpStatusCode } from '@angular/common/http';
 import { SnackBarComponent, SnackBarData } from '../../share/snack-bar/snack-bar.component';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { envMode } from '../../../core/enums';
 
 /**
  * 丸ボタンの種類

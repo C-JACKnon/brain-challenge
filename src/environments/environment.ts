@@ -1,4 +1,4 @@
-import { envMode } from "../app/app.component";
+import { envMode } from "../app/core/enums";
 
 /**
  * 開発用環境変数
