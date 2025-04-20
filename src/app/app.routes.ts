@@ -20,7 +20,7 @@ export enum PAGE_ADDRESS {
  */
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: PAGE_ADDRESS.HOME, component: HomeComponent },
+  { path: PAGE_ADDRESS.HOME, redirectTo: '' },
   { path: PAGE_ADDRESS.HOW_TO, component: HowToComponent },
   { path: PAGE_ADDRESS.MAKE_TEN, component: MakeTenComponent },
   { path: PAGE_ADDRESS.SCORE, component: ScoreComponent },
