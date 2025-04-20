@@ -1,7 +1,7 @@
 import { NgWordListType } from "./models";
 
 // アプリケーションのバージョン
-export const ApplicationVersion: string = '1.1.1';
+export const ApplicationVersion: string = '1.1.2';
 
 // Make10の問題数
 export const MaxQuestionCount: number = 5;
